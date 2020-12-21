@@ -1,0 +1,20 @@
+{
+    "name": "thetakylo/projet5-blog",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Sébastien Thuret",
+            "email": "sebastien.thuret@yahoo.fr"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": { 
+            "Framework\\": "framework",
+            "App\\": "app"
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.2"
+    }
+}
