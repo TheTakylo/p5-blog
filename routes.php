@@ -1,5 +1,7 @@
 <?php
 
 return [
-    ['/', 'pages@index', ['GET']]
+    ['/', 'pages@index', ['GET']],
+
+    ['/article/:slug', 'posts@show', ['GET']]
 ];
