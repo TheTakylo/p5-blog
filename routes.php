@@ -1,5 +1,6 @@
 <?php
 
 return [
-    ['/', 'pages@index', ['GET']]
+    ['/', 'pages@index', ['GET']],
+    ['/contact', 'pages@contact', ['GET']]
 ];
