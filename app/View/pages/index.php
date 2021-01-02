@@ -11,6 +11,14 @@
         <h3 class="pb-4 mb-4 font-italic border-bottom">
             Derniers articles
         </h3>
+
+        <?php foreach ($posts as $post): ?>
+            <div class="blog-post">
+                <h2 class="blog-post-title"><?= $post->title ?></h2>
+                <p><?= Text::truncate(strip_tags($post->content)); ?></p>
+                <a href="#">Lire la suite</a>
+            </div>
+        <?php endforeach; ?>
     </div>
     <div class="col-md-4">
         <div class="p-4 mb-3 bg-light rounded">

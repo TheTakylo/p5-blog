@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PostRepository;
 use Framework\Controller\AbstractController;
 use Framework\Http\Response;
 
@@ -11,6 +12,12 @@ class PagesController extends AbstractController
 
     public function index(): Response
     {
-        return $this->render('pages/index.php');
+        $postRepository = $this->getRepository(PostRepository::class);
+
+        $posts = $postRepository->findForHomePage();
+
+        return $this->render('pages/index.php', [
+            'posts' => $posts
+        ]);
     }
 }
