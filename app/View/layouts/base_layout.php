@@ -29,8 +29,9 @@
         </div>
     </header>
     <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-between">
+        <nav class="nav">
             <a class="p-2 link-secondary" href="<?= Urls::route('pages@index'); ?>">Accueil</a>
+            <a class="p-2 link-secondary" href="<?= Urls::route('posts@index'); ?>">Articles</a>
         </nav>
     </div>
 </div>
