@@ -14,7 +14,7 @@
 
         <?php foreach ($posts as $post): ?>
             <div class="blog-post">
-                <h2 class="blog-post-title"><?= $post->title ?></h2>
+                <h3><?= $post->title ?></h3>
                 <p><?= Text::truncate(strip_tags($post->content)); ?></p>
                 <a href="<?= Urls::route('posts@show', ['slug' => $post->slug]) ?>">Lire la suite</a>
             </div>
