@@ -9,7 +9,7 @@ class PostRepository extends AbstractRepository
 {
 
     static $pagination = [
-        'maxElements' => 8
+        'maxElements' => 4
     ];
 
     protected function getEntity(): string
