@@ -32,6 +32,7 @@
         <nav class="nav">
             <a class="p-2 link-secondary" href="<?= Urls::route('pages@index'); ?>">Accueil</a>
             <a class="p-2 link-secondary" href="<?= Urls::route('posts@index'); ?>">Articles</a>
+            <a class="p-2 link-secondary" href="<?= Urls::route('users@register'); ?>">Inscription</a>
         </nav>
     </div>
 </div>
