@@ -52,9 +52,35 @@ class UsersController extends AbstractController
             } else {
                 $this->flash()->add('danger', 'Veuillez remplir tous les champs.');
             }
-
         }
 
         return $this->render('users/register.php');
+    }
+
+    public function login(): Response
+    {
+        if ($this->request->getMethod() === 'POST') {
+            if (FormHelper::notEmpty('form-email') || FormHelper::notEmpty('form-password')) {
+                $data = $this->request->post->all();
+
+                if (filter_var($data['form-email'], FILTER_VALIDATE_EMAIL)) {
+                    $user = $this->userRepository->findOne(['email' => $data['form-email']]);
+
+                    if (password_verify($data['form-password'], $user->getPassword())) {
+                        $this->session()->set('user', $user);
+
+                        return $this->redirectTo('pages@index');
+                    } else {
+                        $this->flash()->add('danger', 'Les identifiants sont incorrects.');
+                    }
+                } else {
+                    $this->flash()->add('danger', 'Veuillez entrez une adresse email valide.');
+                }
+            } else {
+                $this->flash()->add('danger', 'Veuillez remplir tous les champs.');
+            }
+        }
+
+        return $this->render('users/login.php');
     }
 }

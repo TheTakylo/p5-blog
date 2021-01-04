@@ -23,7 +23,7 @@
                          role="img" viewBox="0 0 24 24"><title>Search</title>
                         <circle cx="10.5" cy="10.5" r="7.5"/>
                         <path d="M21 21l-5.2-5.2"/>
-                    </svg>  
+                    </svg>
                 </a>
             </div>
         </div>
@@ -32,7 +32,11 @@
         <nav class="nav">
             <a class="p-2 link-secondary" href="<?= Urls::route('pages@index'); ?>">Accueil</a>
             <a class="p-2 link-secondary" href="<?= Urls::route('posts@index'); ?>">Articles</a>
-            <a class="p-2 link-secondary" href="<?= Urls::route('users@register'); ?>">Inscription</a>
+
+            <?php if (!Session::isLogged()): ?>
+                <a class="p-2 link-secondary" href="<?= Urls::route('users@register'); ?>">Inscription</a>
+                <a class="p-2 link-secondary" href="<?= Urls::route('users@login'); ?>">Connexion</a>
+            <?php endif; ?>
         </nav>
     </div>
 </div>
