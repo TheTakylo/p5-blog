@@ -9,7 +9,7 @@ use Framework\Database\Entity\SchemaParameter;
 
 abstract class AbstractRepository
 {
-    
+
     protected $db;
 
     public function __construct()
@@ -18,8 +18,8 @@ abstract class AbstractRepository
     }
 
     /**
-    * @return array
-    */
+     * @return array
+     */
     public function findAll(): array
     {
         $req = $this->db->prepare('SELECT ' . $this->getColumsNameString() . ' FROM ' . $this->getEntity()::getTableName());
@@ -31,160 +31,162 @@ abstract class AbstractRepository
     public function findOne($conditions)
     {
         $item = $this->findWhere($conditions);
-        
-        return $item[0];
+
+        return $item[0] ?? [];
     }
-    
+
     public function findWhere($conditions, $orderBy = "")
     {
         $queryConditions = "";
         $queryData = [];
-        
-        foreach($conditions as $key => $value) {
-            if($queryConditions != "") {
+
+        foreach ($conditions as $key => $value) {
+            if ($queryConditions !== "") {
                 $queryConditions .= " AND ";
+            } else {
+                $queryConditions = " WHERE ";
             }
-            
+
             $queryData[":value_{$key}"] = $value;
-            $queryConditions .= " WHERE {$key} = :value_{$key} ";
+            $queryConditions .= " {$key} = :value_{$key} ";
         }
-        
+
         $query = $this->db->prepare("SELECT * FROM {$this->getEntity()::getTableName()}  $queryConditions  ORDER BY id DESC");
-        
+
         $query->execute($queryData);
         $data = $query->fetchAll();
-        
+
         return $this->hydrateEntities($data);
     }
-    
+
     public function remove($where, $value): bool
     {
         $query = $this->db->prepare("DELETE FROM {$this->getEntity()::getTableName()} WHERE {$where}= :where_value ");
-        
+
         return $query->execute([':where_value' => $value]);
     }
-    
+
     public function save(AbstractEntity $entity): bool
     {
         $schema = $entity::getSchemaWithDbNameAsKey();
-        
+
         $data = [];
         $rows = "";
         $values = "";
-        
-        foreach($schema as $column) {
+
+        foreach ($schema as $column) {
             $getter = 'get' . ucfirst($column->getColumnName());
-            
-            if($value = $entity->$getter()) {
+
+            if ($value = $entity->$getter()) {
                 $rows .= " {$column->getColumnName()}, ";
-                
-                if($column->getType() === 'datetime') {
+
+                if ($column->getType() === 'datetime') {
                     $value = $value->format('Y-m-d H:i:s');
-                }                
-                
+                }
+
                 $data[':' . $column->getColumnName()] = $value;
             }
         }
-        
-        foreach($data as $row => $v) {
+
+        foreach ($data as $row => $v) {
             $values .= " {$row}, ";
         }
-        
-        $rows  = substr($rows, 0, -2);
+
+        $rows = substr($rows, 0, -2);
         $values = substr($values, 0, -2);
-        
+
         $query = $this->db->prepare("INSERT INTO {$entity->getTableName()} ({$rows}) VALUES ({$values})");
-        
+
         return $query->execute($data);
     }
-    
+
     public function count($where = null, $value = null): int
     {
         $data = [];
         $condition = "";
-        
-        if($where && $value) {
+
+        if ($where && $value) {
             $condition = "WHERE $where = :value";
             $data = [":value" => $value];
         }
-        
+
         $req = $this->db->prepare('SELECT COUNT(id) as result FROM ' . $this->getEntity()::getTableName() . ' ' . $condition);
         $req->execute($data);
-        
+
         return $req->fetch()->result;
     }
-    
+
     public function findLike($where, $value)
     {
         $query = $this->db->prepare("SELECT * FROM {$this->getEntity()::getTableName()} WHERE {$where} LIKE :where_value ORDER BY id DESC");
-        
+
         $query->execute([':where_value' => "%{$value}%"]);
-        
+
         return $this->hydrateEntities($query->fetchAll());
     }
-    
+
     protected function hydrateEntities($datas)
     {
-        if(!$datas) {
+        if (!$datas) {
             return [];
         }
-        
+
         return array_map(function ($data) {
             return $this->hydrateEntity($data);
         }, $datas);
     }
-    
+
     /**
-    * @return AbstractEntity
-    *
-    * @throws \Exception
-    */
+     * @return AbstractEntity
+     *
+     * @throws \Exception
+     */
     protected function hydrateEntity($datas): AbstractEntity
     {
         $className = $this->getEntity();
         $entity = new $className();
         foreach ($datas as $key => $value) {
             $setterName = $this->getEntity()::getSetterNameFromColumName($key);
-            
-            if($setterName === 'other') {
+
+            if ($setterName === 'other') {
                 $entity->addOther($key, $value);
             } else {
                 $entity->$setterName($value);
             }
-            
+
         }
-        
+
         return $entity;
     }
-    
+
     /**
-    * @return AbstractEntity
-    */
+     * @return AbstractEntity
+     */
     abstract protected function getEntity(): string;
-    
+
     /**
-    * @return string
-    */
+     * @return string
+     */
     protected function getColumsNameString()
     {
         $result = '';
-        
+
         /** @var SchemaParameter $schemaParameters */
         foreach ($this->getEntity()::getSchema() as $schemaParameters) {
             if ($result !== '') {
                 $result .= ', ';
             }
-            
+
             $result .= $schemaParameters->getColumnName() . ' AS ' . $this->getAliasColumnName($schemaParameters->getParameterName());
         }
-        
+
         return $result;
     }
-    
+
     /**
-    * @param string $columName
-    * @return string
-    */
+     * @param string $columName
+     * @return string
+     */
     protected function getAliasColumnName(string $columName)
     {
         return $columName;
