@@ -6,18 +6,19 @@
         <div class="card">
             <div class="card-header">Inscription</div>
             <div class="card-body">
-                <form action="#" method="post">
+                <?= Partials::load('partials/flash.php'); ?>
+                <form action="<?= Urls::route('users@register'); ?>" method="post">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="form-firstname">Prénom</label>
-                                <input type="text" id="form-firstname" name="form-firstname" class="form-control" placeholder="Prénom">
+                                <input value="<?= Form::get('form-firstname') ?>" type="text" id="form-firstname" name="form-firstname" class="form-control" placeholder="Prénom">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="form-lastname">Nom</label>
-                                <input type="text" id="form-lastname" name="form-lastname" class="form-control" placeholder="Nom">
+                                <input value="<?= Form::get('form-lastname') ?>" type="text" id="form-lastname" name="form-lastname" class="form-control" placeholder="Nom">
                             </div>
                         </div>
                     </div>
@@ -25,7 +26,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="form-email">Adresse email</label>
-                                <input type="email" id="form-email" name="form-email" class="form-control" placeholder="Adresse email">
+                                <input value="<?= Form::get('form-email') ?>" type="email" id="form-email" name="form-email" class="form-control" placeholder="Adresse email">
                             </div>
                         </div>
                     </div>
@@ -33,7 +34,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="form-password">Mot de passe</label>
-                                <input type="password" id="form-password" name="form-password" class="form-control" placeholder="Mot de passe">
+                                <input value="<?= Form::get('form-password') ?>" type="password" id="form-password" name="form-password" class="form-control" placeholder="Mot de passe">
                             </div>
                         </div>
                     </div>

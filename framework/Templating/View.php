@@ -31,7 +31,7 @@ class View
     }
     
     private function loadHelpers() {
-        $helpers = ['Assets', 'Urls', 'Partials','Text', 'Session', 'Flash', 'Paginate'];
+        $helpers = ['Assets', 'Urls', 'Partials','Text', 'Session', 'Flash', 'Paginate', 'Form'];
         
         foreach($helpers as $helper) {
             include CORE . "/Templating/Helpers/{$helper}.php";
