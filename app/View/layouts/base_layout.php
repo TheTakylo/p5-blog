@@ -36,7 +36,6 @@
             </div>
             <div class="d-flex">
                 <?php if (!Session::isLogged()): ?>
-
                     <a class="p-2 link-secondary" href="<?= Urls::route('users@register'); ?>">Inscription</a>
                     <a class="p-2 link-secondary" href="<?= Urls::route('users@login'); ?>">Connexion</a>
                 <?php else: ?>
