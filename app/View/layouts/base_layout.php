@@ -29,14 +29,20 @@
         </div>
     </header>
     <div class="nav-scroller py-1 mb-2">
-        <nav class="nav">
-            <a class="p-2 link-secondary" href="<?= Urls::route('pages@index'); ?>">Accueil</a>
-            <a class="p-2 link-secondary" href="<?= Urls::route('posts@index'); ?>">Articles</a>
+        <nav class="nav d-flex justify-content-between">
+            <div class="d-flex">
+                <a class="p-2 link-secondary" href="<?= Urls::route('pages@index'); ?>">Accueil</a>
+                <a class="p-2 link-secondary" href="<?= Urls::route('posts@index'); ?>">Articles</a>
+            </div>
+            <div class="d-flex">
+                <?php if (!Session::isLogged()): ?>
 
-            <?php if (!Session::isLogged()): ?>
-                <a class="p-2 link-secondary" href="<?= Urls::route('users@register'); ?>">Inscription</a>
-                <a class="p-2 link-secondary" href="<?= Urls::route('users@login'); ?>">Connexion</a>
-            <?php endif; ?>
+                    <a class="p-2 link-secondary" href="<?= Urls::route('users@register'); ?>">Inscription</a>
+                    <a class="p-2 link-secondary" href="<?= Urls::route('users@login'); ?>">Connexion</a>
+                <?php else: ?>
+                    <a class="p-2 link-secondary" href="<?= Urls::route('users@logout'); ?>">Déconnexion</a>
+                <?php endif; ?>
+            </div>
         </nav>
     </div>
 </div>

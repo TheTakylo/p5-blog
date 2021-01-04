@@ -83,4 +83,13 @@ class UsersController extends AbstractController
 
         return $this->render('users/login.php');
     }
+
+    public function logout(): Response
+    {
+        if ($this->session()->has('user')) {
+            $this->session()->clear();
+        }
+
+        return $this->redirectTo('pages@index');
+    }
 }

@@ -9,6 +9,7 @@ return [
 
     ['/users', [
         ['/register', 'users@register', ['GET', 'POST']],
-        ['/login', 'users@login', ['GET', 'POST']]
+        ['/login', 'users@login', ['GET', 'POST']],
+        ['/logout', 'users@logout', ['GET']]
     ]],
 ];
