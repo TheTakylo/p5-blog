@@ -7,11 +7,23 @@ use Framework\Database\Entity\SchemaParameter;
 
 class User extends AbstractEntity
 {
+
+    /** @var int $id */
     private $id;
+
+    /** @var string $email */
     private $email;
+
+    /** @var string $password */
     private $password;
+
+    /** @var string $firstname */
     private $firstname;
+
+    /** @var string $lastname */
     private $lastname;
+
+    /** @var int $is_admin */
     private $is_admin;
 
     public $other;
@@ -42,110 +54,111 @@ class User extends AbstractEntity
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      * @return User
      */
-    public function setId($id)
+    public function setId(int $id): User
     {
         $this->id = $id;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
-     * @param mixed $email
+     * @param string $email
      * @return User
      */
-    public function setEmail($email)
+    public function setEmail(string $email): User
     {
         $this->email = $email;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
     /**
-     * @param mixed $password
+     * @param string $password
      * @return User
      */
-    public function setPassword($password)
+    public function setPassword(string $password): User
     {
         $this->password = $password;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getFirstname()
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
 
     /**
-     * @param mixed $firstname
+     * @param string $firstname
      * @return User
      */
-    public function setFirstname($firstname)
+    public function setFirstname(string $firstname): User
     {
         $this->firstname = $firstname;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLastname()
+    public function getLastname(): string
     {
         return $this->lastname;
     }
 
     /**
-     * @param mixed $lastname
+     * @param string $lastname
      * @return User
      */
-    public function setLastname($lastname)
+    public function setLastname(string $lastname): User
     {
         $this->lastname = $lastname;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getIs_admin()
+    public function getIs_admin(): int
     {
         return $this->is_admin;
     }
 
     /**
-     * @param mixed $is_admin
+     * @param int $is_admin
      * @return User
      */
-    public function setIs_admin($is_admin)
+    public function setIs_admin(int $is_admin): User
     {
         $this->is_admin = $is_admin;
         return $this;
     }
+
 }
