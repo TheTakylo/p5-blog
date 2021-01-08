@@ -19,10 +19,16 @@ class Kernel
     /** @var ConfigurationParser */
     private $config;
 
+    /** @var \Twig\Environment $twig */
+    private $twig;
+
     public function __construct($app, ConfigurationParser $config)
     {
         $this->env = $app['environement'];
         $this->config = $config;
+
+        $loader = new \Twig\Loader\FilesystemLoader(TEMPLATE);
+        $this->twig = new \Twig\Environment($loader);
     }
 
     public function getResponse()
@@ -30,10 +36,13 @@ class Kernel
         $this->initializeEnvironement();
 
         $store = Store::getInstance();
+        $store->set('Twig', $this->twig);
         $store->set('Config', $this->config);
         $store->set('Database', (new Database($this->config->getDatabase()))->getConnection());
         $store->set('Request', Request::all());
         $store->set('Router', new Router($this->config->getRoutes(), $store->get('Request')));
+
+        $this->loadTwigFunctions();
 
         define('SITE_URL', $store->getRouter()->getRoot());
 
@@ -63,6 +72,11 @@ class Kernel
             ini_set("display_errors", "on");
             error_reporting(-1);
         }
+    }
+
+    private function loadTwigFunctions()
+    {
+        \Framework\Templating\TwigHelpers\TwigHelpersLoaders::loadFunctions();
     }
 
 }
