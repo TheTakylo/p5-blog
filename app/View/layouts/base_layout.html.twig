@@ -38,6 +38,9 @@
                 {% if not isLogged() %}
                     <a class="p-2 link-secondary" href="{{ route('users@register') }}">Inscription</a>
                 {% else %}
+                    {% if isAdmin() %}
+                        <a class="p-2 link-secondary" href="{{ route('admin@index') }}">Administration</a>
+                    {% endif %}
                     <a class="p-2 link-secondary" href="{{ route('users@logout') }}">Déconnexion</a>
                 {% endif %}
             </div>

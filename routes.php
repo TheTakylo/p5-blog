@@ -12,4 +12,8 @@ return [
         ['/login', 'users@login', ['GET', 'POST']],
         ['/logout', 'users@logout', ['GET']]
     ]],
+    ['/admin', [
+        ['', 'admin@index', ['GET']],
+    ],
+    ],
 ];
