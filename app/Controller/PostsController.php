@@ -25,7 +25,7 @@ class PostsController extends AbstractController
 
         $posts = $this->postRepository->findForHomePage($pageNumber);
 
-        return $this->render('posts/index.php', [
+        return $this->render('posts/index.html.twig', [
             'posts' => $posts
         ]);
     }
@@ -38,7 +38,7 @@ class PostsController extends AbstractController
             die();
         }
 
-        return $this->render('posts/show.php', [
+        return $this->render('posts/show.html.twig', [
             'post' => $post
         ]);
     }

@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <title><?= $title; ?> | Sébastien Thuret - Blog</title>
+    <title>{% block title %}{% endblock %} | Sébastien Thuret - Blog</title>
     <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= Assets::css('bootstrap.min.css') ?>">
+    <link rel="stylesheet" href="{{ assets_css('bootstrap.min.css') }}">
 </head>
 <body>
 <div class="container">
@@ -31,22 +31,22 @@
     <div class="nav-scroller py-1 mb-2">
         <nav class="nav d-flex justify-content-between">
             <div class="d-flex">
-                <a class="p-2 link-secondary" href="<?= Urls::route('pages@index'); ?>">Accueil</a>
-                <a class="p-2 link-secondary" href="<?= Urls::route('posts@index'); ?>">Articles</a>
+                <a class="p-2 link-secondary" href="{{ route('pages@index') }}">Accueil</a>
+                <a class="p-2 link-secondary" href="{{ route('posts@index') }}">Articles</a>
             </div>
             <div class="d-flex">
-                <?php if (!Session::isLogged()): ?>
-                    <a class="p-2 link-secondary" href="<?= Urls::route('users@register'); ?>">Inscription</a>
-                    <a class="p-2 link-secondary" href="<?= Urls::route('users@login'); ?>">Connexion</a>
-                <?php else: ?>
-                    <a class="p-2 link-secondary" href="<?= Urls::route('users@logout'); ?>">Déconnexion</a>
-                <?php endif; ?>
+                {% if not isLogged() %}
+                    <a class="p-2 link-secondary" href="{{ route('users@register') }}">Inscription</a>
+                    <a class="p-2 link-secondary" href="{{ route('users@login') }}">Connexion</a>
+                {% else %}
+                    <a class="p-2 link-secondary" href="{{ route('users@logout') }}">Déconnexion</a>
+                {% endif %}
             </div>
         </nav>
     </div>
 </div>
 <main class="container">
-    <?= $content; ?>
+    {% block content %}{% endblock %}
 </main>
 <footer class="blog-footer">
     <p>Créez votre premier blog en PHP - P5 OpenClassrooms | Sébastien Thuret</p>

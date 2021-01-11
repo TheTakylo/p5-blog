@@ -16,7 +16,7 @@ class PagesController extends AbstractController
 
         $posts = $postRepository->findForHomePage();
 
-        return $this->render('pages/index.php', [
+        return $this->render('pages/index.html.twig', [
             'posts' => $posts
         ]);
     }

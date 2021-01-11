@@ -54,7 +54,7 @@ class UsersController extends AbstractController
             }
         }
 
-        return $this->render('users/register.php');
+        return $this->render('users/register.html.twig');
     }
 
     public function login(): Response
@@ -81,7 +81,7 @@ class UsersController extends AbstractController
             }
         }
 
-        return $this->render('users/login.php');
+        return $this->render('users/login.html.twig');
     }
 
     public function logout(): Response

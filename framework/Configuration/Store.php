@@ -3,6 +3,7 @@
 namespace Framework\Configuration;
 
 use Framework\Router\Router;
+use Twig\Environment;
 
 class Store
 {
@@ -35,14 +36,27 @@ class Store
         $this->store[$key] = $value;
     }
 
+    /**
+     * @return Router
+     */
     public function getRouter(): Router
     {
         return $this->get('Router');
     }
 
+    /**
+     * @return \PDO
+     */
     public function getDatabase(): \PDO
     {
         return $this->get('Database');
     }
 
+    /**
+     * @return Environment
+     */
+    public function getTwig(): Environment
+    {
+        return $this->get('Twig');
+    }
 }
