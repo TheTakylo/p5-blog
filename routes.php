@@ -15,6 +15,7 @@ return [
     ['/admin', [
         ['', 'admin@index', ['GET']],
         ['/posts', 'adminPosts@index', ['GET']],
+        ['/posts/:id', 'adminPosts@delete', ['DELETE']],
     ],
     ],
 ];
