@@ -54,9 +54,35 @@ class AdminPostsController extends AdminBaseController
         ]);
     }
 
+    public function edit(int $id): Response
+    {
+        $post = $this->postRepository->findOne(['id' => $id]);
+
+        if (!$post) {
+            $this->flash()->add('danger', "L'article n'existe pas");
+            $this->redirectTo('adminPosts@index');
+        }
+
+        if ($this->request->getMethod() === 'POST') {
+            $formData = $this->getRequest()->post;
+
+            if ($this->postRepository->update($formData->get('form-title'), $formData->get('form-content'), $post->getId())) {
+                $this->flash()->add('success', 'Article sauvegardé');
+
+                return $this->redirectTo('adminPosts@index');
+            } else {
+                $this->flash()->add('danger', "Erreur lors de la sauvegarde de l'article");
+            }
+        }
+
+        return $this->render('admin/posts/form.html.twig', [
+            'post' => $post
+        ]);
+    }
+
     public function delete(int $id): Response
     {
-        $post = $this->postRepository->findWhere(['id' => $id]);
+        $post = $this->postRepository->findOne(['id' => $id]);
 
         if ($post) {
             if ($this->postRepository->remove('id', $id)) {

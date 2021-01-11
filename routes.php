@@ -16,6 +16,7 @@ return [
         ['', 'admin@index', ['GET']],
         ['/posts', 'adminPosts@index', ['GET']],
         ['/posts/add', 'adminPosts@add', ['GET', 'POST']],
+        ['/posts/edit/:id', 'adminPosts@edit', ['GET', 'POST']],
         ['/posts/:id', 'adminPosts@delete', ['DELETE']],
     ],
     ],
