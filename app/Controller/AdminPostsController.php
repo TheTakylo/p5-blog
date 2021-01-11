@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use App\Repository\PostRepository;
+use Framework\Helpers\TextHelper;
 use Framework\Http\Response;
 
 class AdminPostsController extends AdminBaseController
@@ -13,6 +15,8 @@ class AdminPostsController extends AdminBaseController
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->postRepository = $this->getRepository(PostRepository::class);
     }
 
@@ -22,6 +26,31 @@ class AdminPostsController extends AdminBaseController
 
         return $this->render('admin/posts/index.html.twig', [
             'posts' => $posts
+        ]);
+    }
+
+    public function add(): Response
+    {
+        $post = new Post();
+
+        if ($this->request->getMethod() === 'POST') {
+            $formData = $this->getRequest()->post;
+
+            $post->setTitle($formData->get('form-title'))
+                ->setSlug(TextHelper::slug($formData->get('form-title')))
+                ->setContent($formData->get('form-content'));
+
+            if ($this->postRepository->save($post)) {
+                $this->flash()->add('success', 'Article ajouté');
+
+                return $this->redirectTo('adminPosts@index');
+            } else {
+                $this->flash()->add('danger', "Erreur lors de l'ajout de l'article");
+            }
+        }
+
+        return $this->render('admin/posts/form.html.twig', [
+            'post' => $post
         ]);
     }
 
