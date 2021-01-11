@@ -14,6 +14,7 @@ return [
     ]],
     ['/admin', [
         ['', 'admin@index', ['GET']],
+        ['/posts', 'adminPosts@index', ['GET']],
     ],
     ],
 ];
