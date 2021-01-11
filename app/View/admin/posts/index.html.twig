@@ -1,0 +1,61 @@
+{% extends 'layouts/base_admin.html.twig' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Articles</h1>
+        <a href="{{ route('adminPosts@add') }}" class="btn btn-sm btn-primary ms-3">Ajouter</a>
+    </div>
+    {% if posts %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Titre</th>
+                <th scope="col">Modifié le</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for post in posts %}
+                <tr>
+                    <th scope="row">{{ post.id }}</th>
+                    <td>
+                        <a target="_blank" href="{{ route('posts@show', {slug: post.slug}) }}">
+                            {{ post.title }}
+                            <span data-feather="external-link"></span>
+                        </a>
+                    </td>
+                    <td>
+                        {% if post.updated_at %}
+                            <span data-feather="calendar"></span>
+                            Le {{ post.updated_at|date('d/m/Y') }} à {{ post.updated_at|date('H:i:s') }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ route('adminPosts@edit', {id: post.id}) }}" class="btn btn-sm btn-primary">
+                            <span data-feather="edit"></span>
+                            Modifier
+                        </a>
+                        <form action="{{ route('adminPosts@delete', {id: post.id}) }}" method="post" class="d-inline-block">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button onclick="confirm('Êtes-vous sûr de vouloir supprimer cette article ?')" type="submit" class="btn btn-sm btn-danger">
+                                <span data-feather="x"></span>
+                                Supprimer
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {{ paginate_show('\\App\\Repository\\PostRepository') }}
+    {% else %}
+        <div class="alert alert-info">
+            Aucun article.
+        </div>
+    {% endif %}
+{% endblock %}

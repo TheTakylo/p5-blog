@@ -37,8 +37,10 @@
             <div class="d-flex">
                 {% if not isLogged() %}
                     <a class="p-2 link-secondary" href="{{ route('users@register') }}">Inscription</a>
-                    <a class="p-2 link-secondary" href="{{ route('users@login') }}">Connexion</a>
                 {% else %}
+                    {% if isAdmin() %}
+                        <a class="p-2 link-secondary" href="{{ route('admin@index') }}">Administration</a>
+                    {% endif %}
                     <a class="p-2 link-secondary" href="{{ route('users@logout') }}">Déconnexion</a>
                 {% endif %}
             </div>
@@ -50,9 +52,9 @@
 </main>
 <footer class="blog-footer">
     <p>Créez votre premier blog en PHP - P5 OpenClassrooms | Sébastien Thuret</p>
-    <p>
-        <a href="#">Retourner en haut du site</a>
-    </p>
+    {% if not isLogged() %}
+        <a class="p-2 link-secondary" href="{{ route('users@login') }}">Connexion</a>
+    {% endif %}
 </footer>
 </body>
 </html>
