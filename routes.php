@@ -3,9 +3,11 @@
 return [
     ['/', 'pages@index', ['GET']],
 
-    ['/articles', 'posts@index', ['GET']],
-    ['/article/:slug', 'posts@show', ['GET']],
-
+    ['/articles', [
+        ['', 'posts@index', ['GET']],
+        ['/:slug', 'posts@show', ['GET']],
+        ['/comments/add/:post_id', 'postsComments@add', ['POST']],
+    ]],
 
     ['/users', [
         ['/register', 'users@register', ['GET', 'POST']],

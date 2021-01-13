@@ -50,7 +50,7 @@
 <main class="container">
     {% block content %}{% endblock %}
 </main>
-<footer class="blog-footer">
+<footer class="blog-footer mt-5">
     <p>Créez votre premier blog en PHP - P5 OpenClassrooms | Sébastien Thuret</p>
     {% if not isLogged() %}
         <a class="p-2 link-secondary" href="{{ route('users@login') }}">Connexion</a>

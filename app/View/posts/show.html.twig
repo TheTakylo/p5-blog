@@ -13,27 +13,41 @@
     </div>
     <div class="row">
         <div class="col-md-10 offset-md-1">
-            <form method="POST" action="#">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="form-email">Adresse email</label>
-                            <input type="email" id="form-email" name="form-email" class="form-control" placeholder="Adresse email">
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="form-pseudo">Pseudonyme</label>
-                            <input type="text" id="form-pseudo" name="form-pseudo" class="form-control" placeholder="Pseudonyme">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="commentContent">Commentaire</label>
-                        <textarea rows="4" name="commentContent" id="commentContent" class="form-control" placeholder="Commentaire"></textarea>
-                    </div>
+            {% include 'partials/flash.html.twig' %}
+            <div class="row">
+                <div class="col-md-7">
                 </div>
-                <div class="form-row">
-                    <button type="submit" class="btn btn-secondary mt-3">Valider</button>
+                <div class="col-md-5">
+                    <form method="POST" action="{{ route('postsComments@add', {post_id: post.id}) }}">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="form-email">Adresse email</label>
+                                    <input type="email" id="form-email" name="form-email" class="form-control" placeholder="Adresse email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="form-name">Nom</label>
+                                    <input type="text" id="form-name" name="form-name" class="form-control" placeholder="Pseudonyme">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label for="form-content">Commentaire</label>
+                                <textarea rows="4" name="form-content" id="form-content" class="form-control" placeholder="Commentaire"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <button type="submit" class="btn btn-secondary mt-3">Valider</button>
+                            <p class="fst-italic small text-secondary mt-2">Votre commentaire fera l'objet d'un examen avant sa publication</p>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 {% endblock %}

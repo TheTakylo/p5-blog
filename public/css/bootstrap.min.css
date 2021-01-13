@@ -11164,3 +11164,5 @@ h1, h2, h3, h4, h5, h6 {
 .blog-footer p:last-child {
     margin-bottom: 0;
 }
+
+.media{display:-ms-flexbox;display:flex;-ms-flex-align:start;align-items:flex-start}.media-body{-ms-flex:1;flex:1}

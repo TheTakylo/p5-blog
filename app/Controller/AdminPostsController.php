@@ -3,21 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\Post;
-use App\Repository\PostRepository;
+use App\Repository\CommentRepository;
 use Framework\Helpers\TextHelper;
 use Framework\Http\Response;
 
 class AdminPostsController extends AdminBaseController
 {
 
-    /** @var PostRepository $postRepository */
+    /** @var CommentRepository $postRepository */
     private $postRepository;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->postRepository = $this->getRepository(PostRepository::class);
+        $this->postRepository = $this->getRepository(CommentRepository::class);
     }
 
     public function index(): Response
