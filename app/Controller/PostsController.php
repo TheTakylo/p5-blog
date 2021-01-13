@@ -40,7 +40,7 @@ class PostsController extends AbstractController
         }
 
         $commentRepository = $this->getRepository(CommentRepository::class);
-        $comments = $commentRepository->findWhere(['post_id' => $post->getId(), 'validated' => 0]);
+        $comments = $commentRepository->findWhere(['post_id' => $post->getId(), 'validated' => 1]);
 
         return $this->render('posts/show.html.twig', [
             'post'     => $post,
