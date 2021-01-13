@@ -21,14 +21,22 @@ class AdminCommentsController extends AdminBaseController
     public function index(): Response
     {
         $type = $this->request->get->get('show') ?? 'need-validate';
+        $type = ($type === 'need-validate') ? 0 : 1;
 
-        if ($type === 'need-validate') {
-            $comments = $this->commentRepository->findAllWithPosts(0);
+        $comments = $this->commentRepository->findAllWithPosts($type);
+
+        if ($type === 0) {
+            $commentsValidated = count($this->commentRepository->findWhere(['validated' => 1]));
+            $commentsNeedValidate = count($comments);
+        } else {
+            $commentsValidated = count($comments);
+            $commentsNeedValidate = count($this->commentRepository->findWhere(['validated' => 0]));
         }
 
         return $this->render('admin/comments/index.html.twig', [
-            'comments'      => $comments,
-            'commentsCount' => count($comments)
+            'comments'             => $comments,
+            'commentsValidated'    => $commentsValidated,
+            'commentsNeedValidate' => $commentsNeedValidate
         ]);
     }
 
