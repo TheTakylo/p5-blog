@@ -1,0 +1,70 @@
+{% extends 'layouts/base_admin.html.twig' %}
+
+{% block title %}Commentaires{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Commentaires</h1>
+    </div>
+    <div class="mb-4">
+        <a href="?show=need-validate">A valider ({{ commentsCount }})</a>
+    </div>
+    {% if comments %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Article associé</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Email</th>
+                <th scope="col">Contenu</th>
+                <th scope="col">Ajouté le</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <th scope="row">
+                        <a target="_blank" href="{{ route('posts@show', {slug: comment.other.slug}) }}">
+                            {{ comment.other.title }}
+                            <span data-feather="external-link"></span>
+                        </a>
+                    </th>
+                    <td>
+                        {{ comment.name }}
+                    </td>
+                    <td>
+                        {{ comment.email }}
+                    </td>
+                    <td>
+                        {{ comment.content }}
+                    </td>
+                    <td>
+                        <span data-feather="calendar"></span>
+                        Le {{ comment.createdAt|date('d/m/Y à H:i:s') }}
+                    </td>
+                    <td>
+                        <form action="{{ route('adminComments@validate', {id: comment.id}) }}" method="post" class="d-inline-block">
+                            <button type="submit" class="btn btn-sm btn-primary">
+                                <span data-feather="check"></span>
+                                Valider
+                            </button>
+                        </form>
+                        <form action="{{ route('adminComments@delete', {id: comment.id}) }}" method="post" class="d-inline-block">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button onclick="confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')" type="submit" class="btn btn-sm btn-danger">
+                                <span data-feather="x"></span>
+                                Supprimer
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info">
+            Aucun commentaires.
+        </div>
+    {% endif %}
+{% endblock %}

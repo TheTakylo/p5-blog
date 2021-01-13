@@ -20,6 +20,10 @@ return [
         ['/posts/add', 'adminPosts@add', ['GET', 'POST']],
         ['/posts/edit/:id', 'adminPosts@edit', ['GET', 'POST']],
         ['/posts/:id', 'adminPosts@delete', ['DELETE']],
+
+        ['/comments', 'adminComments@index', ['GET']],
+        ['/comments/validate/:id', 'adminComments@validate', ['POST']],
+        ['/comments/delete/:id', 'adminComments@delete', ['DELETE']]
     ],
     ],
 ];
