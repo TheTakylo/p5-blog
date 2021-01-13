@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 use Framework\Controller\AbstractController;
 use Framework\Http\Response;
@@ -38,8 +39,12 @@ class PostsController extends AbstractController
             die();
         }
 
+        $commentRepository = $this->getRepository(CommentRepository::class);
+        $comments = $commentRepository->findWhere(['post_id' => $post->getId(), 'validated' => 1]);
+
         return $this->render('posts/show.html.twig', [
-            'post' => $post
+            'post'     => $post,
+            'comments' => $comments
         ]);
     }
 }

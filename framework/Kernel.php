@@ -53,7 +53,9 @@ class Kernel
                 $controller = new $controller;
 
                 /** @var Response $response */
-                $response = call_user_func_array([$controller, $route->getAction()], $route->getParams());
+
+                $action = $route->getAction();
+                $response = $controller->$action(...$route->getParams());
 
                 return $response->send();
             }

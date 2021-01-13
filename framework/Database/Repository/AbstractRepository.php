@@ -2,7 +2,6 @@
 
 namespace Framework\Database\Repository;
 
-use App\Entity\Comment;
 use Framework\Configuration\Store;
 use Framework\Database\Entity\AbstractEntity;
 use Framework\Database\Entity\SchemaParameter;
@@ -75,7 +74,7 @@ abstract class AbstractRepository
         $values = "";
 
         foreach ($schema as $column) {
-            $getter = 'get' . ucfirst($column->getColumnName());
+            $getter = 'get' . ucfirst($column->getParameterName());
 
             if ($value = $entity->$getter()) {
                 $rows .= " {$column->getColumnName()}, ";
