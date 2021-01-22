@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\LoginForm;
 use App\Repository\UserRepository;
 use Framework\Controller\AbstractController;
 use Framework\Helpers\FormHelper;
@@ -59,29 +60,24 @@ class UsersController extends AbstractController
 
     public function login(): Response
     {
-        if ($this->request->getMethod() === 'POST') {
-            if (FormHelper::notEmpty('form-email') || FormHelper::notEmpty('form-password')) {
-                $data = $this->request->post->all();
+        $form = new LoginForm();
 
-                if (filter_var($data['form-email'], FILTER_VALIDATE_EMAIL)) {
-                    $user = $this->userRepository->findOne(['email' => $data['form-email']]);
+        $form->handleRequest($this->getRequest());
 
-                    if (password_verify($data['form-password'], $user->getPassword())) {
-                        $this->session()->set('user', $user);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->userRepository->findOne(['email' => $form->get('email')]);
+            if (!empty($user) && password_verify($form->get('password'), $user->getPassword())) {
+                $this->session()->set('user', $user);
 
-                        return $this->redirectTo('pages@index');
-                    } else {
-                        $this->flash()->add('danger', 'Les identifiants sont incorrects.');
-                    }
-                } else {
-                    $this->flash()->add('danger', 'Veuillez entrez une adresse email valide.');
-                }
+                return $this->redirectTo('pages@index');
             } else {
-                $this->flash()->add('danger', 'Veuillez remplir tous les champs.');
+                $this->flash()->add('danger', 'Les identifiants sont incorrects.');
             }
         }
 
-        return $this->render('users/login.html.twig');
+        return $this->render('users/login.html.twig', array(
+            'form' => $form
+        ));
     }
 
     public function logout(): Response
