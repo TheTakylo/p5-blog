@@ -40,20 +40,6 @@ class PostRepository extends AbstractRepository
 
     }
 
-    public function update($title, $content, $id): bool
-    {
-        $query = "UPDATE posts SET title=:title, content=:content, slug=:slug, updated_at=:updated_at WHERE id=:id";
-        $query = $this->db->prepare($query);
-
-        return $query->execute([
-            'id'         => $id,
-            'title'      => $title,
-            'content'    => $content,
-            'slug'       => TextHelper::slug($title),
-            'updated_at' => date('Y-m-d H:i:s')
-        ]);
-    }
-
     static function getMaxElements(): int
     {
         return (int)self::$pagination['maxElements'];

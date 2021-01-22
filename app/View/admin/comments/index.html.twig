@@ -56,6 +56,7 @@
                     <td>
                         {% if comment.validated is same as(0) %}
                             <form action="{{ route('adminComments@validate', {id: comment.id}) }}" method="post" class="d-inline-block">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                                 <button type="submit" class="btn btn-sm btn-primary">
                                     <span data-feather="check"></span>
                                     Valider
@@ -64,6 +65,7 @@
                         {% endif %}
                         <form action="{{ route('adminComments@delete', {id: comment.id}) }}" method="post" class="d-inline-block">
                             <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
                             <button onclick="confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')" type="submit" class="btn btn-sm btn-danger">
                                 <span data-feather="x"></span>
                                 Supprimer

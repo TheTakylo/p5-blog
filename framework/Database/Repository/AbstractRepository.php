@@ -65,6 +65,14 @@ abstract class AbstractRepository
         return $query->execute([':where_value' => $value]);
     }
 
+    public function delete(AbstractEntity $entity): bool
+    {
+        $query = $this->db->prepare("DELETE FROM {$this->getEntity()::getTableName()} WHERE id=:id ");
+
+        $query->execute([':id' => $entity->getId()]);
+        return true;
+    }
+
     public function save(AbstractEntity $entity): bool
     {
         $schema = $entity::getSchemaWithDbNameAsKey();
@@ -79,7 +87,7 @@ abstract class AbstractRepository
             if ($value = $entity->$getter()) {
                 $rows .= " {$column->getColumnName()}, ";
 
-                if ($column->getType() === 'datetime') {
+                if ($column->getType() === 'datetime' && $value instanceof \DateTime) {
                     $value = $value->format('Y-m-d H:i:s');
                 }
 
@@ -87,16 +95,43 @@ abstract class AbstractRepository
             }
         }
 
-        foreach ($data as $row => $v) {
-            $values .= " {$row}, ";
+        if ($entity->id !== null) {
+            if (method_exists($entity, 'setUpdated_at')) {
+                $entity->setUpdated_at(new \DateTime());
+            }
+
+            $updateSql = "";
+
+            foreach ($schema as $column) {
+                if ($column->getColumnName() === "id") {
+                    continue;
+                }
+
+                if (array_key_exists(':' . $column->getParameterName(), $data)) {
+                    if ($updateSql !== "") {
+                        $updateSql .= " , ";
+                    }
+
+                    $updateSql .= " " . $column->getColumnName() . " = '" . $data[':' . $column->getParameterName()] . "'";
+                }
+            }
+
+            $query = $this->db->prepare("UPDATE {$entity->getTableName()} SET {$updateSql} WHERE id=" . $entity->id);
+        } else {
+
+            foreach ($data as $row => $v) {
+                $values .= " {$row}, ";
+            }
+
+            $rows = substr($rows, 0, -2);
+            $values = substr($values, 0, -2);
+
+            $query = $this->db->prepare("INSERT INTO {$entity->getTableName()} ({$rows}) VALUES ({$values})");
         }
 
-        $rows = substr($rows, 0, -2);
-        $values = substr($values, 0, -2);
+        $query->execute($data);
 
-        $query = $this->db->prepare("INSERT INTO {$entity->getTableName()} ({$rows}) VALUES ({$values})");
-
-        return $query->execute($data);
+        return true;
     }
 
     public function count($where = null, $value = null): int

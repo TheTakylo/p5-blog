@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
+use App\Form\CommentDeleteForm;
+use App\Form\CommentValidateForm;
 use App\Repository\CommentRepository;
 use Framework\Http\Response;
 
@@ -42,13 +45,21 @@ class AdminCommentsController extends AdminBaseController
 
     public function validate(int $id): Response
     {
-        $comment = $this->commentRepository->findOne(['id' => $id]);
+        /** @var Comment $comment */
+        $comment = $this->commentRepository->findOne(array('id' => $id));
 
-        if ($comment) {
-            if ($this->commentRepository->validate($comment->getId())) {
+        if (!$comment) {
+            die('404'); // TODO
+        }
+
+        $form = new CommentValidateForm();
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setValidated(1);
+
+            if ($this->commentRepository->save($comment)) {
                 $this->flash()->add('success', "Le commentaire a bien été validé");
-            } else {
-                $this->flash()->add('danger', "Erreur lors de la validation du commentaire");
             }
         }
 
@@ -57,13 +68,18 @@ class AdminCommentsController extends AdminBaseController
 
     public function delete(int $id): Response
     {
-        $comment = $this->commentRepository->findOne(['id' => $id]);
+        $comment = $this->commentRepository->findOne(array('id' => $id));
 
-        if ($comment) {
-            if ($this->commentRepository->remove('id', $id)) {
+        if (!$comment) {
+            die('404'); // TODO
+        }
+
+        $form = new CommentDeleteForm();
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->commentRepository->delete($comment)) {
                 $this->flash()->add('success', "Le commentaire a bien été supprimé");
-            } else {
-                $this->flash()->add('danger', "Erreur lors de la suppression du commentaire");
             }
         }
 
