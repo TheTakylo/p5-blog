@@ -6,24 +6,28 @@ use Framework\Form\Constraints\AbstractConstraint;
 
 abstract class AbstractType
 {
+    public $options = array(
+        'html_block' => 'input',
+        'html_type'  => 'text'
+    );
 
     /** @var AbstractConstraint[] */
     private $constraints;
 
     /** @var array $errorsMessages */
-    private $errorsMessages;
+    private $errorsMessages = array();
 
     /** @var mixed $value */
     private $value;
 
     /**
      * @param AbstractConstraint[] $constraints
-     * @param mixed|null $value
      */
-    public function __construct(array $constraints, string $value = null)
+    public function __construct(...$constraints)
     {
         $this->constraints = $constraints;
-        $this->value = $value;
+
+        $this->setOptions();
     }
 
     public function isValid(): bool
@@ -48,9 +52,28 @@ abstract class AbstractType
         return $this->errorsMessages;
     }
 
-    public function getValue(): string
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
+    public function setOptions()
+    {
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
 }

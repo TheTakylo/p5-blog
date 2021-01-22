@@ -11,18 +11,28 @@ class Csrf extends AbstractConstraint
 
     public function isValid($value): bool
     {
-        if (!isset($_SESSION['_csrf_token'])) {
+        $sessionCsrf = $_SESSION['_csrf_token'] ?? null;
+
+        if ($sessionCsrf === null) {
             return false;
         }
 
-        if (empty($_SESSION['_csrf_token'])) {
+        if ($sessionCsrf['token'] !== $value) {
             return false;
         }
 
-        if ($_SESSION['_csrf_token'] === $value) {
-            return true;
+        $createdAt = $sessionCsrf['createdAt'];
+        if (!($createdAt instanceof \DateTimeInterface)) {
+            return false;
         }
 
-        return false;
+        $now = new \DateTime();
+        $timeInSeconds = $now->getTimestamp() - $createdAt->getTimestamp();
+
+        if ($timeInSeconds > 10 * 60) {
+            return false;
+        }
+
+        return true;
     }
 }
