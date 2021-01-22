@@ -2,6 +2,7 @@
 
 namespace Framework\Form;
 
+use Framework\Database\Entity\AbstractEntity;
 use Framework\Form\Type\AbstractType;
 use Framework\Http\Request;
 
@@ -10,9 +11,13 @@ abstract class AbstractForm
 
     public $fields;
 
-    public function __construct($fields = array())
+    /** @var AbstractEntity|null $entity */
+    public $entity;
+
+    public function __construct($fields = array(), &$entity = null)
     {
         $this->fields = $fields;
+        $this->entity = $entity;
     }
 
     public function getFields(): array
@@ -29,7 +34,18 @@ abstract class AbstractForm
              * @var  AbstractType $fieldType
              */
             foreach ($this->getFields() as $fieldName => $fieldType) {
-                $fieldType->setValue($request->post->get($fieldName));
+                $value = $request->post->get($fieldName);
+
+                $fieldType->setValue($value);
+
+                if ($this->entity !== null) {
+                    $method = 'set' . ucfirst($fieldName);
+
+                    if (method_exists($this->entity, $method)) {
+                        $this->entity->$method($request->post->get($fieldName));
+                    }
+                }
+
             }
         }
     }
