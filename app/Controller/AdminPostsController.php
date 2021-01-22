@@ -3,15 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Post;
-use App\Repository\CommentRepository;
+use App\Form\PostDeleteForm;
+use App\Form\PostForm;
 use App\Repository\PostRepository;
-use Framework\Helpers\TextHelper;
 use Framework\Http\Response;
 
 class AdminPostsController extends AdminBaseController
 {
 
-    /** @var CommentRepository $postRepository */
+    /** @var PostRepository $postRepository */
     private $postRepository;
 
     public function __construct()
@@ -23,7 +23,7 @@ class AdminPostsController extends AdminBaseController
 
     public function index(): Response
     {
-        $posts = $this->postRepository->findAll();
+        $posts = $this->postRepository->findWhere(array(), "ORDER BY id DESC");
 
         return $this->render('admin/posts/index.html.twig', [
             'posts' => $posts
@@ -33,25 +33,21 @@ class AdminPostsController extends AdminBaseController
     public function add(): Response
     {
         $post = new Post();
+        $form = new PostForm($post);
 
-        if ($this->request->getMethod() === 'POST') {
-            $formData = $this->getRequest()->post;
+        $form->handleRequest($this->getRequest());
 
-            $post->setTitle($formData->get('form-title'))
-                ->setSlug(TextHelper::slug($formData->get('form-title')))
-                ->setContent($formData->get('form-content'));
-
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($this->postRepository->save($post)) {
                 $this->flash()->add('success', 'Article ajouté');
 
                 return $this->redirectTo('adminPosts@index');
-            } else {
-                $this->flash()->add('danger', "Erreur lors de l'ajout de l'article");
             }
         }
 
         return $this->render('admin/posts/form.html.twig', [
-            'post' => $post
+            'post' => $post,
+            'form' => $form
         ]);
     }
 
@@ -60,36 +56,41 @@ class AdminPostsController extends AdminBaseController
         $post = $this->postRepository->findOne(['id' => $id]);
 
         if (!$post) {
-            $this->flash()->add('danger', "L'article n'existe pas");
-            $this->redirectTo('adminPosts@index');
+            die('404'); // TODO
         }
 
-        if ($this->request->getMethod() === 'POST') {
-            $formData = $this->getRequest()->post;
+        $form = new PostForm($post);
+        $form->handleRequest($this->getRequest());
 
-            if ($this->postRepository->update($formData->get('form-title'), $formData->get('form-content'), $post->getId())) {
-                $this->flash()->add('success', 'Article sauvegardé');
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($this->postRepository->save($post)) {
+                $this->flash()->add('success', 'Article modifié');
 
                 return $this->redirectTo('adminPosts@index');
-            } else {
-                $this->flash()->add('danger', "Erreur lors de la sauvegarde de l'article");
             }
         }
 
         return $this->render('admin/posts/form.html.twig', [
-            'post' => $post
+            'post' => $post,
+            'form' => $form
         ]);
     }
 
     public function delete(int $id): Response
     {
-        $post = $this->postRepository->findOne(['id' => $id]);
+        $post = $this->postRepository->findOne(array('id' => $id));
 
-        if ($post) {
-            if ($this->postRepository->remove('id', $id)) {
+        if (!$post) {
+            die('404'); // TODO
+        }
+
+        $form = new PostDeleteForm();
+        $form->handleRequest($this->getRequest());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->postRepository->delete($post)) {
                 $this->flash()->add('success', "L'article a bien été supprimé");
-            } else {
-                $this->flash()->add('danger', "Erreur lors de la suppression de l'article");
             }
         }
 

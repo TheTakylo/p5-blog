@@ -12,7 +12,7 @@
     <script src="https://cdn.tiny.cloud/1/680gbxqmf0h6zgyhj1k2o972aksvf0uq6t3laj8yk6jumzi2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
-            selector: '#form-content',
+            selector: '#content',
             plugins: 'advlist autolink lists link charmap print preview hr anchor pagebreak',
             toolbar_mode: 'floating',
         });
@@ -24,15 +24,20 @@
         <a href="{{ route('adminPosts@index') }}" class="btn btn-sm btn-outline-secondary"><span data-feather="arrow-left"></span></a>
         <h1 class="h2 ms-3">Ajouter un article</h1>
     </div>
-    <form action="{% if post.id %}{{ route('adminPosts@edit', {id:post.id}) }}{% else %}{{ route('adminPosts@add') }}{% endif %}" method="post">
-        <div class="form-group">
-            <label for="form-title">Titre</label>
-            <input value="{{ post.title }}" type="text" id="form-title" name="form-title" class="form-control" placeholder="Titre">
+    {{ form_start(form) }}
+    <div class="row mt-3">
+        <div class="col-md-12">
+            {{ form_row(form, 'title', 'Titre') }}
+            {{ form_errors(form, 'title') }}
         </div>
-        <div class="form-group mt-3">
-            <label for="form-content">Contenu</label>
-            <textarea class="form-control" name="form-content" id="form-content" cols="30" rows="10">{{ post.content }}</textarea>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            {{ form_row(form, 'content', 'Contenu') }}
+            {{ form_errors(form, 'content') }}
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Valider</button>
-    </form>
+    </div>
+    {{ form_row(form, '_csrf_token', '', csrf_token()) }}
+    <button type="submit" class="mt-3 btn btn-primary">Valider</button>
+    {{ form_end(form) }}
 {% endblock %}
