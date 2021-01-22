@@ -65,6 +65,14 @@ abstract class AbstractRepository
         return $query->execute([':where_value' => $value]);
     }
 
+    public function delete(AbstractEntity $entity): bool
+    {
+        $query = $this->db->prepare("DELETE FROM {$this->getEntity()::getTableName()} WHERE id=:id ");
+
+        $query->execute([':id' => $entity->getId()]);
+        return true;
+    }
+
     public function save(AbstractEntity $entity): bool
     {
         $schema = $entity::getSchemaWithDbNameAsKey();
