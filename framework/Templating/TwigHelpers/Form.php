@@ -59,7 +59,7 @@ class Form
         $fieldOptions = $field->getOptions();
         switch ($fieldOptions['html_block']) {
             case 'textarea':
-                $html .= "<textarea class='form-control' id=='{$fieldName}' name='{$fieldName}' placeholder='{$label}'>{$field->getValue()}</textarea>";
+                $html .= "<textarea class='form-control' id='{$fieldName}' name='{$fieldName}' placeholder='{$label}'>{$field->getValue()}</textarea>";
                 break;
             case 'input':
                 $html .= "<input type='{$fieldOptions['html_type']}' id='{$fieldName}' class='form-control' value='" . ($field->getValue() ?? $defaultValue) . "' name='{$fieldName}' placeholder='{$label}'/>";
