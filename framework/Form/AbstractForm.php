@@ -18,6 +18,13 @@ abstract class AbstractForm
     {
         $this->fields = $fields;
         $this->entity = $entity;
+
+        if ($this->entity !== null) {
+            /** @var AbstractType $field */
+            foreach ($this->fields as $k => $field) {
+                $field->setValue($this->_getForEntity($k));
+            }
+        }
     }
 
     public function getFields(): array
@@ -99,5 +106,31 @@ abstract class AbstractForm
         }
 
         return $field->getValue();
+    }
+
+    private function _getForEntity($fieldName)
+    {
+        $methods = array('get', 'has', 'is');
+
+        foreach ($methods as $method) {
+            $method = $method . ucfirst($fieldName);
+
+            if (method_exists($this->entity, $method)) {
+                return $this->entity->$method();
+            }
+        }
+    }
+
+    private function _setForEntity($fieldName)
+    {
+        $methods = array('set');
+
+        foreach ($methods as $method) {
+            $method = $method . ucfirst($fieldName);
+
+            if (method_exists($this->entity, $method)) {
+                return $this->entity->$method();
+            }
+        }
     }
 }
