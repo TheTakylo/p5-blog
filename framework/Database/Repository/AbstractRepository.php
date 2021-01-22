@@ -87,7 +87,7 @@ abstract class AbstractRepository
             if ($value = $entity->$getter()) {
                 $rows .= " {$column->getColumnName()}, ";
 
-                if ($column->getType() === 'datetime') {
+                if ($column->getType() === 'datetime' && $value instanceof \DateTime) {
                     $value = $value->format('Y-m-d H:i:s');
                 }
 
