@@ -79,11 +79,28 @@ class Form
         $html = "";
 
         if (!empty($errors)) {
-            $html = "<div class='mt-2 alert alert-danger'><ul class='mb-0'>";
-            foreach ($errors as $error) {
-                $html .= "<li>{$error}</li>";
+            $html = "<div class='mt-2 alert alert-danger'>";
+
+            $multiple = count($errors) > 1;
+
+            if ($multiple) {
+                $html .= "<ul class='mb-0'>";
             }
-            $html .= "</ul></div>";
+
+            foreach ($errors as $error) {
+                if ($multiple) {
+                    $html .= "<li>";
+                }
+                $html .= "{$error}";
+                if ($multiple) {
+                    $html .= "</li>";
+                }
+            }
+
+            if ($multiple) {
+                $html .= "</ul>";
+            }
+            $html .= "</div>";
         }
 
         return $html;
