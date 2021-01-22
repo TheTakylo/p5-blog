@@ -87,16 +87,43 @@ abstract class AbstractRepository
             }
         }
 
-        foreach ($data as $row => $v) {
-            $values .= " {$row}, ";
+        if ($entity->id !== null) {
+            if (method_exists($entity, 'setUpdated_at')) {
+                $entity->setUpdated_at(new \DateTime());
+            }
+
+            $updateSql = "";
+
+            foreach ($schema as $column) {
+                if ($column->getColumnName() === "id") {
+                    continue;
+                }
+
+                if (array_key_exists(':' . $column->getParameterName(), $data)) {
+                    if ($updateSql !== "") {
+                        $updateSql .= " , ";
+                    }
+
+                    $updateSql .= " " . $column->getColumnName() . " = '" . $data[':' . $column->getParameterName()] . "'";
+                }
+            }
+
+            $query = $this->db->prepare("UPDATE {$entity->getTableName()} SET {$updateSql} WHERE id=" . $entity->id);
+        } else {
+
+            foreach ($data as $row => $v) {
+                $values .= " {$row}, ";
+            }
+
+            $rows = substr($rows, 0, -2);
+            $values = substr($values, 0, -2);
+
+            $query = $this->db->prepare("INSERT INTO {$entity->getTableName()} ({$rows}) VALUES ({$values})");
         }
 
-        $rows = substr($rows, 0, -2);
-        $values = substr($values, 0, -2);
+        $query->execute($data);
 
-        $query = $this->db->prepare("INSERT INTO {$entity->getTableName()} ({$rows}) VALUES ({$values})");
-
-        return $query->execute($data);
+        return true;
     }
 
     public function count($where = null, $value = null): int
