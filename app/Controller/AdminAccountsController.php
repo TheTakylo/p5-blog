@@ -57,7 +57,7 @@ class AdminAccountsController extends AdminBaseController
         $user = $this->userRepository->findOne(['id' => $id]);
 
         if (!$user) {
-            die('404'); // TODO
+            return $this->createNotFound();
         }
 
         $form = new UserForm($user);
@@ -90,7 +90,7 @@ class AdminAccountsController extends AdminBaseController
         $user = $this->userRepository->findOne(array('id' => $id));
 
         if (!$user) {
-            die('404'); // TODO
+            return $this->createNotFound();
         }
 
         $form = new AddUserForm();

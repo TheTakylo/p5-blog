@@ -60,6 +60,10 @@ class Kernel
                 return $response->send();
             }
         } catch (RouteNotFoundException $e) {
+            if (file_exists(CONTROLLERS_DIR . 'ErrorsController.php')) {
+                $controller = new \App\Controller\ErrorsController();
+                return $controller->error404()->send();
+            }
         }
     }
 

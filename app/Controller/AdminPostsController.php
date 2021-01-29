@@ -56,7 +56,7 @@ class AdminPostsController extends AdminBaseController
         $post = $this->postRepository->findOne(['id' => $id]);
 
         if (!$post) {
-            die('404'); // TODO
+            return $this->createNotFound();
         }
 
         $form = new PostForm($post);
@@ -82,7 +82,7 @@ class AdminPostsController extends AdminBaseController
         $post = $this->postRepository->findOne(array('id' => $id));
 
         if (!$post) {
-            die('404'); // TODO
+            return $this->createNotFound();
         }
 
         $form = new PostDeleteForm();
