@@ -49,7 +49,6 @@ class Kernel
         try {
             $store->set('Database', (new Database($this->config->getDatabase()))->getConnection());
 
-
             if ($route = $store->getRouter()->match()) {
 
                 $controller = 'App\\Controller\\' . ucfirst($route->getController()) . 'Controller';
@@ -63,13 +62,21 @@ class Kernel
                 return $response->send();
             }
         } catch (RouteNotFoundException $e) {
-            if (file_exists(CONTROLLERS_DIR . 'ErrorsController.php')) {
-                $controller = new \App\Controller\ErrorsController();
-                return $controller->error404()->send();
+            if ($this->env === 'prod') {
+                if (file_exists(CONTROLLERS_DIR . 'ErrorsController.php')) {
+                    $controller = new \App\Controller\ErrorsController();
+                    return $controller->error404()->send();
+                }
             }
+
+            throw $e;
         } catch (\Exception $e) {
-            $controller = new \App\Controller\ErrorsController();
-            return $controller->error()->send();
+            if ($this->env === 'prod') {
+                $controller = new \App\Controller\ErrorsController();
+                return $controller->error()->send();
+            }
+
+            throw $e;
         }
     }
 
