@@ -14,7 +14,7 @@ class PostRequest extends AbstractDataRequest
             return parent::get($item);
         }
 
-        return trim(htmlspecialchars(strip_tags(parent::get($item))));
+        return parent::get($item);
     }
 
     public function data()

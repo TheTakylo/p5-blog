@@ -18,11 +18,16 @@ return [
         ['/posts', 'adminPosts@index', ['GET']],
         ['/posts/add', 'adminPosts@add', ['GET', 'POST']],
         ['/posts/edit/{id}', 'adminPosts@edit', ['GET', 'POST']],
-        ['/posts/{id}', 'adminPosts@delete', ['DELETE']],
+        ['/posts/delete/{id}', 'adminPosts@delete', ['DELETE']],
 
         ['/comments', 'adminComments@index', ['GET']],
         ['/comments/validate/{id}', 'adminComments@validate', ['POST']],
-        ['/comments/delete/{id}', 'adminComments@delete', ['DELETE']]
+        ['/comments/delete/{id}', 'adminComments@delete', ['DELETE']],
+
+        ['/accounts', 'adminAccounts@index', ['GET']],
+        ['/accounts/add', 'adminAccounts@add', ['GET', 'POST']],
+        ['/accounts/edit/{id}', 'adminAccounts@edit', ['GET', 'POST']],
+        ['/accounts/delete/{id}', 'adminAccounts@delete', ['DELETE']]
     ],
     ],
 ];
