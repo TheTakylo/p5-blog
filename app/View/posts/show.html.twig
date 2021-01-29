@@ -6,6 +6,9 @@
     <div class="row mt-5">
         <div class="col-md-10 offset-md-1">
             <div class="blog-post border-bottom pb-4">
+                {% if post.updated_at %}
+                    <p class="fst-italic small text-secondary mb-2">Modifié le {{ post.updated_at|date('d/m/y à H:i') }}</p>
+                {% endif %}
                 <h2 class="blog-post-title">{{ post.title }}</h2>
                 <p class="mt-5">{{ post.content|raw }}</p>
             </div>

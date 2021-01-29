@@ -63,6 +63,7 @@ class AdminPostsController extends AdminBaseController
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $post->setUpdated_at(new \DateTime());
 
             if ($this->postRepository->save($post)) {
                 $this->flash()->add('success', 'Article modifié');

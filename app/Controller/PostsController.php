@@ -33,7 +33,7 @@ class PostsController extends AbstractController
         ]);
     }
 
-    public function show($id, $slug): Response
+    public function show($slug, $id): Response
     {
         $post = $this->postRepository->findOne(['id' => $id]);
 
