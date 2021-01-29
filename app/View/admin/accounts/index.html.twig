@@ -1,0 +1,49 @@
+{% extends 'layouts/base_admin.html.twig' %}
+
+{% block title %}Comptes administrateurs{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Comptes administrateurs</h1>
+        <a href="{{ route('adminAccounts@add') }}" class="btn btn-sm btn-primary ms-3">Ajouter</a>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Email</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for account in accounts %}
+            <tr>
+                <td>
+                    {{ account.id }}
+                </td>
+                <td>
+                    {{ account.firstname }} {{ account.lastname }}
+                </td>
+                <td>
+                    {{ account.email }}
+                </td>
+                <td>
+                    <a href="{{ route('adminAccounts@edit', {id: account.id}) }}" class="btn btn-sm btn-primary">
+                        <span data-feather="edit"></span>
+                        Modifier
+                    </a>
+                    <form action="{{ route('adminAccounts@delete', {id: account.id}) }}" method="post" class="d-inline-block">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                        <button onclick="confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')" type="submit" class="btn btn-sm btn-danger">
+                            <span data-feather="x"></span>
+                            Supprimer
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

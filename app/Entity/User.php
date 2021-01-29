@@ -56,7 +56,7 @@ class User extends AbstractEntity
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -74,7 +74,7 @@ class User extends AbstractEntity
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -92,7 +92,7 @@ class User extends AbstractEntity
     /**
      * @return string
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -110,7 +110,7 @@ class User extends AbstractEntity
     /**
      * @return string
      */
-    public function getFirstname(): string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
@@ -128,7 +128,7 @@ class User extends AbstractEntity
     /**
      * @return string
      */
-    public function getLastname(): string
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }

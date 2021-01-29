@@ -4,6 +4,9 @@ namespace Framework\Form\Type;
 
 class CsrfType extends AbstractType
 {
+
+    private static $csrf;
+
     public function setOptions()
     {
         $this->options['html_type'] = 'hidden';
@@ -25,13 +28,16 @@ class CsrfType extends AbstractType
      */
     public static function generate(): string
     {
-        $csrf = [
-            'token'     => bin2hex(random_bytes(32)),
-            'createdAt' => new \DateTime()
-        ];
+        if (!self::$csrf) {
+            self::$csrf = [
+                'token'     => bin2hex(random_bytes(32)),
+                'createdAt' => new \DateTime()
+            ];
 
-        $_SESSION['_csrf_token'] = $csrf;
+            $_SESSION['_csrf_token'] = self::$csrf;
+        }
 
-        return $csrf['token'];
+
+        return self::$csrf['token'];
     }
 }
