@@ -33,12 +33,19 @@ class PostsController extends AbstractController
         ]);
     }
 
-    public function show($slug): Response
+    public function show($id, $slug): Response
     {
-        $post = $this->postRepository->findOne(['slug' => $slug]);
+        $post = $this->postRepository->findOne(['id' => $id]);
 
         if (!$post) {
             die('404'); // TODO
+        }
+
+        if ($post->getSlug() !== $slug) {
+            $this->redirectTo('posts@show', [
+                'id'   => $post->getId(),
+                'slug' => $post->getSlug()
+            ], 301);
         }
 
         $commentRepository = $this->getRepository(CommentRepository::class);
@@ -53,7 +60,10 @@ class PostsController extends AbstractController
 
             if ($commentRepository->save($comment)) {
                 $this->flash()->add('info', "Votre commentaire a bien été ajouté. Il sera vérifié par un administrateur avant d'être visible dans la section commentaires de l'article");
-                return $this->redirectTo('posts@show', array('slug' => $post->getSlug()));
+                return $this->redirectTo('posts@show', [
+                    'id'   => $post->getId(),
+                    'slug' => $post->getSlug()
+                ]);
             }
         }
 

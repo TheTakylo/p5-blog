@@ -35,7 +35,7 @@
                         {% endif %}
                     </th>
                     <th>
-                        <a target="_blank" href="{{ route('posts@show', {slug: comment.other.slug}) }}">
+                        <a target="_blank" href="{{ route('posts@show', {id: comment.post_id, slug: comment.other.slug}) }}">
                             {{ comment.other.title }}
                             <span data-feather="external-link"></span>
                         </a>
