@@ -8,6 +8,7 @@ use Framework\Helpers\UrlsHelper;
 use Framework\Http\RedirectResponse;
 use Framework\Http\Request;
 use Framework\Http\Response;
+use Framework\Router\Exception\RouteNotFoundException;
 use Framework\Session\FlashManager;
 use Framework\Session\SessionManager;
 use Framework\Templating\View;
@@ -82,6 +83,11 @@ abstract class AbstractController
     public function getRepository($repository): AbstractRepository
     {
         return new $repository();
+    }
+
+    public function createNotFound(): Response
+    {
+        throw new RouteNotFoundException();
     }
 
 }

@@ -37,16 +37,19 @@ class Kernel
 
         $store = Store::getInstance();
         $store->set('Twig', $this->twig);
-        $store->set('Config', $this->config);
-        $store->set('Database', (new Database($this->config->getDatabase()))->getConnection());
-        $store->set('Request', Request::all());
-        $store->set('Router', new Router($this->config->getRoutes(), $store->get('Request')));
 
         $this->loadTwigFunctions();
+
+        $store->set('Config', $this->config);
+        $store->set('Request', Request::all());
+        $store->set('Router', new Router($this->config->getRoutes(), $store->get('Request')));
 
         define('SITE_URL', $store->getRouter()->getRoot());
 
         try {
+            $store->set('Database', (new Database($this->config->getDatabase()))->getConnection());
+
+
             if ($route = $store->getRouter()->match()) {
 
                 $controller = 'App\\Controller\\' . ucfirst($route->getController()) . 'Controller';
@@ -60,6 +63,13 @@ class Kernel
                 return $response->send();
             }
         } catch (RouteNotFoundException $e) {
+            if (file_exists(CONTROLLERS_DIR . 'ErrorsController.php')) {
+                $controller = new \App\Controller\ErrorsController();
+                return $controller->error404()->send();
+            }
+        } catch (\Exception $e) {
+            $controller = new \App\Controller\ErrorsController();
+            return $controller->error()->send();
         }
     }
 

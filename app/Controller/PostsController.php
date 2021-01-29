@@ -38,7 +38,7 @@ class PostsController extends AbstractController
         $post = $this->postRepository->findOne(['id' => $id]);
 
         if (!$post) {
-            die('404'); // TODO
+            return $this->createNotFound();
         }
 
         if ($post->getSlug() !== $slug) {

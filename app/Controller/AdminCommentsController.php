@@ -49,7 +49,7 @@ class AdminCommentsController extends AdminBaseController
         $comment = $this->commentRepository->findOne(array('id' => $id));
 
         if (!$comment) {
-            die('404'); // TODO
+            return $this->createNotFound();
         }
 
         $form = new CommentValidateForm();
@@ -71,7 +71,7 @@ class AdminCommentsController extends AdminBaseController
         $comment = $this->commentRepository->findOne(array('id' => $id));
 
         if (!$comment) {
-            die('404'); // TODO
+            return $this->createNotFound();
         }
 
         $form = new CommentDeleteForm();
