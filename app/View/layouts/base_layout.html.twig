@@ -47,10 +47,18 @@
     {% block content %}{% endblock %}
 </main>
 <footer class="blog-footer mt-5">
-    <p>Créez votre premier blog en PHP - P5 OpenClassrooms | Sébastien Thuret</p>
+    <div>
+        <a target="_blank" href="https://github.com/TheTakylo/p5-blog" class="text-secondary"><span data-feather="github"></span></a>
+        <a target="_blank" href="https://www.linkedin.com/in/sebastien-thuret/" class="text-secondary ms-1"><span data-feather="linkedin"></span></a>
+    </div>
+    <p class="mt-2">Créez votre premier blog en PHP - P5 OpenClassrooms | Sébastien Thuret</p>
     {% if not isLogged() %}
         <a class="p-2 link-secondary" href="{{ route('users@login') }}">Connexion</a>
     {% endif %}
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
+        crossorigin="anonymous"></script>
+<script src="{{ assets_js('feather.js') }}"></script>
 </body>
 </html>
