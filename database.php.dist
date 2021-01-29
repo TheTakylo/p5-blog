@@ -2,7 +2,7 @@
 
 return [
     'host' => 'localhost',
-    'user' => 'root',
-    'password' => 'root',
+    'user' => '',
+    'password' => '',
     'database' => 'p5_sebastien_thuret_blog'
 ];
