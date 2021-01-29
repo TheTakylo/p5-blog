@@ -22,7 +22,7 @@
                 <tr>
                     <th scope="row">{{ post.id }}</th>
                     <td>
-                        <a target="_blank" href="{{ route('posts@show', {slug: post.slug}) }}">
+                        <a target="_blank" href="{{ route('posts@show', {id: post.id, slug: post.slug}) }}">
                             {{ post.title }}
                             <span data-feather="external-link"></span>
                         </a>

@@ -9,7 +9,7 @@
             <div class="blog-post">
                 <h4>{{ post.title }}</h4>
                 <p>{{ post.content|truncate(100) }}</p>
-                <a href="{{ route('posts@show', {slug: post.slug}) }}">Lire la suite</a>
+                <a href="{{ route('posts@show', {id: post.id, slug: post.slug}) }}">Lire la suite</a>
             </div>
         {% endfor %}
         {{ paginate_show('\\App\\Repository\\PostRepository') }}

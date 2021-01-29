@@ -5,7 +5,7 @@ return [
 
     ['/articles', [
         ['', 'posts@index', ['GET']],
-        ['/{slug}', 'posts@show', ['GET', 'POST']],
+        ['/{id}-{slug}', 'posts@show', ['GET', 'POST']],
     ]],
 
     ['/users', [
