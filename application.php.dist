@@ -2,4 +2,13 @@
 
 return [
     'environement' => 'dev',
+
+    'smtp' => [
+        'host' => 'smtp.gmail.com',
+        'port' => 465,
+        'username' => '',
+        'password' => '',
+
+        'contact_email' => '',
+    ]
 ];

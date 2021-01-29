@@ -133,4 +133,11 @@ abstract class AbstractForm
             }
         }
     }
+
+    public function clear()
+    {
+        foreach($this->getFields() as $field) {
+            $field->setValue('');
+        }
+    }
 }
