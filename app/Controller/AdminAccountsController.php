@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserDeleteForm;
 use App\Form\UserForm;
 use App\Form\UserPasswordForm;
 use App\Repository\UserRepository;
@@ -33,7 +34,7 @@ class AdminAccountsController extends AdminBaseController
     public function add(): Response
     {
         $user = new User();
-        $form = new UserPasswordForm($user);
+        $form = new UserForm($user);
 
         $form->handleRequest($this->getRequest());
 
@@ -125,7 +126,7 @@ class AdminAccountsController extends AdminBaseController
             return $this->createNotFound();
         }
 
-        $form = new AddUserForm();
+        $form = new UserDeleteForm();
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
