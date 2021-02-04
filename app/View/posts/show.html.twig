@@ -19,22 +19,26 @@
             {% include 'partials/flash.html.twig' %}
             <div class="row">
                 <div class="col-md-7">
-                    {% for comment in comments %}
-                        <div class="media">
-                            <img src="https://gravatar.com/avatar/{{ comment.email }}" class="align-self-start mr-3">
-                            <div class="media-body ms-2">
-                                <h5 class="mt-0">
-                                    {{ comment.name }}
-                                    <small class="ml-2">
-                                        le {{ comment.createdAt|date('d/m/y à H:i') }}
-                                    </small>
-                                </h5>
-                                <p>{{ comment.content }}</p>
-                            </div>
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <div class="media">
+                                <img src="https://gravatar.com/avatar/{{ comment.email }}" class="align-self-start mr-3">
+                                <div class="media-body ms-2">
+                                    <h5 class="mt-0">
+                                        {{ comment.name }}
+                                        <small class="ml-2">
+                                            le {{ comment.createdAt|date('d/m/y à H:i') }}
+                                        </small>
+                                    </h5>
+                                    <p>{{ comment.content }}</p>
+                                </div>
 
-                        </div>
-                        <br>
-                    {% endfor %}
+                            </div>
+                            <br>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-secondary">Aucun commentaire</div>
+                    {% endif %}
                 </div>
                 <div class="col-md-5">
                     {{ form_start(form) }}
