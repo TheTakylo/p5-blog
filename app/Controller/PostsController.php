@@ -35,7 +35,7 @@ class PostsController extends AbstractController
 
     public function show($slug, $id): Response
     {
-        $post = $this->postRepository->findOne(['id' => $id]);
+        $post = $this->postRepository->findWithUser($id);
 
         if (!$post) {
             return $this->createNotFound();

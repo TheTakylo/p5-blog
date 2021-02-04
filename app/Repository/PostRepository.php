@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Post;
 use Framework\Database\Repository\AbstractRepository;
-use Framework\Helpers\TextHelper;
 
 class PostRepository extends AbstractRepository
 {
@@ -23,11 +22,34 @@ class PostRepository extends AbstractRepository
         return ($pageNumber - 1) * self::getMaxElements();
     }
 
+    /**
+     * @param int $postId
+     */
+    public function findWithUser(int $postId)
+    {
+        $query = "SELECT posts.*, posts.title, users.firstname, users.lastname
+        FROM posts
+        LEFT JOIN users ON posts.user_id = users.id WHERE posts.id = :id";
+
+        $query = $this->db->prepare($query);
+
+        $query->execute(['id' => $postId]);
+
+        return $this->hydrateEntity($query->fetch());
+    }
+
+    /**
+     * @param int|null $pageNumber
+     * @return array|\Framework\Database\Entity\AbstractEntity[]
+     */
     public function findForHomePage($pageNumber = null)
     {
-        $limit = ($pageNumber) ? 'LIMIT :p_offset, :p_limit' : ' LIMIT 3 ';
+        $limit = ($pageNumber) ? 'LIMIT :p_offset, :p_limit' : ' LIMIT 3';
 
-        $query = "SELECT posts.* FROM posts ORDER BY posts.id DESC {$limit}";
+        $query = "SELECT posts.*, posts.title, users.firstname, users.lastname
+        FROM posts
+        LEFT JOIN users ON posts.user_id = users.id 
+        ORDER BY posts.id DESC {$limit}";
 
         $query = $this->db->prepare($query);
 

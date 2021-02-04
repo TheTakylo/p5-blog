@@ -36,7 +36,7 @@ class UsersController extends AbstractController
             if (!empty($user) && password_verify($form->get('password'), $user->getPassword())) {
                 $this->session()->set('user', $user);
 
-                return $this->redirectTo('pages@index');
+                return $this->redirectTo('adminAccounts@index');
             } else {
                 $this->flash()->add('danger', 'Les identifiants sont incorrects.');
             }

@@ -10,6 +10,7 @@ class Post extends AbstractEntity
 {
 
     private $id;
+    private $user_id;
     private $title;
     private $short_content;
     private $content;
@@ -30,6 +31,7 @@ class Post extends AbstractEntity
     {
         return [
             new SchemaParameter('id', 'id', 'int'),
+            new SchemaParameter('user_id', 'user_id', 'int'),
             new SchemaParameter('title', 'title', 'string'),
             new SchemaParameter('short_content', 'short_content', 'string'),
             new SchemaParameter('content', 'content', 'string'),
@@ -58,6 +60,25 @@ class Post extends AbstractEntity
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getUser_id(): int
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @param int $user_id
+     * @return Post
+     */
+    public function setUser_id(int $user_id): Post
+    {
+        $this->user_id = $user_id;
+        return $this;
+    }
+
 
     /**
      * Get the value of title
@@ -127,7 +148,7 @@ class Post extends AbstractEntity
     /**
      * Get the value of slug
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
