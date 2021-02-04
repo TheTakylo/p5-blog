@@ -11,6 +11,7 @@ class Post extends AbstractEntity
 
     private $id;
     private $title;
+    private $short_content;
     private $content;
     private $slug;
     private $updated_at;
@@ -30,15 +31,11 @@ class Post extends AbstractEntity
         return [
             new SchemaParameter('id', 'id', 'int'),
             new SchemaParameter('title', 'title', 'string'),
+            new SchemaParameter('short_content', 'short_content', 'string'),
             new SchemaParameter('content', 'content', 'string'),
             new SchemaParameter('slug', 'slug', 'string'),
             new SchemaParameter('updated_at', 'updated_at', 'datetime'),
         ];
-    }
-
-    public function __construct()
-    {
-        $this->created_at = new \DateTime();
     }
 
     /**
@@ -52,9 +49,10 @@ class Post extends AbstractEntity
     /**
      * Set the value of id
      *
+     * @param int $id
      * @return  self
      */
-    public function setId($id)
+    public function setId(int $id): Post
     {
         $this->id = $id;
 
@@ -72,13 +70,35 @@ class Post extends AbstractEntity
     /**
      * Set the value of title
      *
+     * @param string $title
      * @return  self
      */
-    public function setTitle($title)
+    public function setTitle(string $title): Post
     {
         $this->title = $title;
 
         $this->slug = TextHelper::slug($title);
+
+        return $this;
+    }
+
+    /**
+     * Get the value of content
+     */
+    public function getShort_content()
+    {
+        return $this->short_content;
+    }
+
+    /**
+     * Set the value of content
+     *
+     * @param string $short_content
+     * @return  self
+     */
+    public function setShort_content(string $short_content): Post
+    {
+        $this->short_content = $short_content;
 
         return $this;
     }
@@ -94,9 +114,10 @@ class Post extends AbstractEntity
     /**
      * Set the value of content
      *
+     * @param string $content
      * @return  self
      */
-    public function setContent($content)
+    public function setContent(string $content): Post
     {
         $this->content = $content;
 
@@ -114,9 +135,10 @@ class Post extends AbstractEntity
     /**
      * Set the value of slug
      *
+     * @param string $slug
      * @return  self
      */
-    public function setSlug($slug)
+    public function setSlug(string $slug): Post
     {
         $this->slug = $slug;
 
@@ -134,9 +156,10 @@ class Post extends AbstractEntity
     /**
      * Set the value of updated_at
      *
+     * @param \DateTime|string $updated_at
      * @return  self
      */
-    public function setUpdated_at($updated_at)
+    public function setUpdated_at($updated_at): Post
     {
         $this->updated_at = $updated_at;
 

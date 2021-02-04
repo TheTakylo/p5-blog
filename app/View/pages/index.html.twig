@@ -19,7 +19,7 @@
             {% for post in posts %}
                 <div class="blog-post">
                     <h3>{{ post.title }}</h3>
-                    <p>{{ post.content }}</p>
+                    <p>{{ post.short_content }}</p>
                     <a href="{{ route('posts@show', {id: post.id, slug: post.slug}) }}">Lire la suite</a>
                 </div>
             {% endfor %}
