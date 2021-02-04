@@ -27,6 +27,7 @@ return [
         ['/accounts', 'adminAccounts@index', ['GET']],
         ['/accounts/add', 'adminAccounts@add', ['GET', 'POST']],
         ['/accounts/edit/{id}', 'adminAccounts@edit', ['GET', 'POST']],
+        ['/accounts/edit/{id}/password', 'adminAccounts@editPassword', ['GET', 'POST']],
         ['/accounts/delete/{id}', 'adminAccounts@delete', ['DELETE']]
     ],
     ],
