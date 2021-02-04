@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\LoginForm;
 use App\Repository\UserRepository;
 use Framework\Controller\AbstractController;
-use Framework\Helpers\FormHelper;
 use Framework\Http\Response;
 
 class UsersController extends AbstractController
@@ -25,6 +23,10 @@ class UsersController extends AbstractController
 
     public function login(): Response
     {
+        if ($this->session()->has('user')) {
+            return $this->redirectTo('admin@index');
+        }
+
         $form = new LoginForm();
 
         $form->handleRequest($this->getRequest());
