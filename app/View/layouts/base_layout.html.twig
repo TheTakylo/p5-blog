@@ -31,12 +31,8 @@
                 <a class="p-2 link-secondary" href="{{ route('posts@index') }}">Articles</a>
             </div>
             <div class="d-flex">
-                {% if not isLogged() %}
-                    <a class="p-2 link-secondary" href="{{ route('users@register') }}">Inscription</a>
-                {% else %}
-                    {% if isAdmin() %}
-                        <a class="p-2 link-secondary" href="{{ route('admin@index') }}">Administration</a>
-                    {% endif %}
+                {% if isLogged() %}
+                    <a class="p-2 link-secondary" href="{{ route('admin@index') }}">Administration</a>
                     <a class="p-2 link-secondary" href="{{ route('users@logout') }}">Déconnexion</a>
                 {% endif %}
             </div>
