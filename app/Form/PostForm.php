@@ -4,6 +4,7 @@ namespace App\Form;
 
 use Framework\Form\AbstractForm;
 use Framework\Form\Constraints\Csrf;
+use Framework\Form\Constraints\MaxLength;
 use Framework\Form\Constraints\NotEmpty;
 use Framework\Form\Constraints\NotNull;
 use Framework\Form\Type\CsrfType;
@@ -16,16 +17,22 @@ class PostForm extends AbstractForm
     {
         parent::__construct(
             array(
-                'title'       => new TextType(
+                'title'         => new TextType(
                     new NotNull(),
                     new NotEmpty()
                 ),
-                'content'     => new TextareaType(
+                'short_content' => new TextareaType(
+                    new NotNull(),
+                    new NotEmpty(),
+                    new MaxLength(255)
+
+                ),
+                'content'       => new TextareaType(
                     new NotNull(),
                     new NotEmpty()
 
                 ),
-                '_csrf_token' => new CsrfType(
+                '_csrf_token'   => new CsrfType(
                     new Csrf()
                 )
             ), $entity
