@@ -58,13 +58,6 @@ abstract class AbstractRepository
         return $this->hydrateEntities($data);
     }
 
-    public function remove($where, $value): bool
-    {
-        $query = $this->db->prepare("DELETE FROM {$this->getEntity()::getTableName()} WHERE {$where}= :where_value ");
-
-        return $query->execute([':where_value' => $value]);
-    }
-
     public function delete(AbstractEntity $entity): bool
     {
         $query = $this->db->prepare("DELETE FROM {$this->getEntity()::getTableName()} WHERE id=:id ");
@@ -148,15 +141,6 @@ abstract class AbstractRepository
         $req->execute($data);
 
         return $req->fetch()->result;
-    }
-
-    public function findLike($where, $value)
-    {
-        $query = $this->db->prepare("SELECT * FROM {$this->getEntity()::getTableName()} WHERE {$where} LIKE :where_value ORDER BY id DESC");
-
-        $query->execute([':where_value' => "%{$value}%"]);
-
-        return $this->hydrateEntities($query->fetchAll());
     }
 
     protected function hydrateEntities($datas)
