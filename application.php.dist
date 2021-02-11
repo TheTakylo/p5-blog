@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'environement' => 'dev',
+    'environement' => 'prod', // 'dev' | 'prod'
 
     'smtp' => [
         'host' => 'smtp.gmail.com',

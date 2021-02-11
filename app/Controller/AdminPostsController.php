@@ -38,6 +38,8 @@ class AdminPostsController extends AdminBaseController
         $form->handleRequest($this->getRequest());
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $post->setUser_id($this->session()->get('user')->getId());
+
             if ($this->postRepository->save($post)) {
                 $this->flash()->add('success', 'Article ajouté');
 
