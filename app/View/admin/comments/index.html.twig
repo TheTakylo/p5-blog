@@ -7,9 +7,11 @@
         <h1 class="h2">Commentaires</h1>
     </div>
     <div class="mb-4">
-        <a href="?show=need-validate" class="text-decoration-none">A valider</a> <span class="text-secondary">({{ commentsNeedValidate }})</span>
+        <a href="?show=need-validate" class="text-decoration-none {% if commentsType == 0 %}text-primary{% else %}text-secondary{% endif %}">A valider</a> <span
+                class="text-secondary">({{ commentsNeedValidate }})</span>
         <a href="#" class="text-decoration-underline text-secondary mx-1">|</a>
-        <a href="?show=validated" class="text-decoration-none">Validé</a> <span class="text-secondary">({{ commentsValidated }})</span>
+        <a href="?show=validated" class="text-decoration-none {% if commentsType == 1 %}text-primary{% else %}text-secondary{% endif %}">Validé</a> <span
+                class="text-secondary">({{ commentsValidated }})</span>
     </div>
     {% if comments %}
         <table class="table">

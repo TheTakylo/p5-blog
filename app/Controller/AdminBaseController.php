@@ -12,7 +12,7 @@ class AdminBaseController extends AbstractController
     {
         parent::__construct();
 
-        if (!$this->session()->has('user') || $this->session()->has('user') && $this->session()->get('user')->is_admin === 0) {
+        if (!$this->session()->has('user')) {
             return $this->redirectTo('users@login', [], 302);
         }
     }

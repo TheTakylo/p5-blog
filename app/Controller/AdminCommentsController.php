@@ -39,7 +39,8 @@ class AdminCommentsController extends AdminBaseController
         return $this->render('admin/comments/index.html.twig', [
             'comments'             => $comments,
             'commentsValidated'    => $commentsValidated,
-            'commentsNeedValidate' => $commentsNeedValidate
+            'commentsNeedValidate' => $commentsNeedValidate,
+            'commentsType'         => $type
         ]);
     }
 

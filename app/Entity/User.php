@@ -23,9 +23,6 @@ class User extends AbstractEntity
     /** @var string $lastname */
     private $lastname;
 
-    /** @var int $is_admin */
-    private $is_admin;
-
     public $other;
 
     public static function getTableName(): string
@@ -44,13 +41,7 @@ class User extends AbstractEntity
             new SchemaParameter('password', 'password', 'string'),
             new SchemaParameter('firstname', 'firstname', 'string'),
             new SchemaParameter('lastname', 'lastname', 'string'),
-            new SchemaParameter('is_admin', 'is_admin', 'int'),
         ];
-    }
-
-    public function __construct()
-    {
-        $this->is_admin = 0;
     }
 
     /**
@@ -142,23 +133,4 @@ class User extends AbstractEntity
         $this->lastname = $lastname;
         return $this;
     }
-
-    /**
-     * @return int
-     */
-    public function getIs_admin(): int
-    {
-        return $this->is_admin;
-    }
-
-    /**
-     * @param int $is_admin
-     * @return User
-     */
-    public function setIs_admin(int $is_admin): User
-    {
-        $this->is_admin = $is_admin;
-        return $this;
-    }
-
 }

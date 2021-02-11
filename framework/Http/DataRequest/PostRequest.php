@@ -4,14 +4,10 @@ namespace Framework\Http\DataRequest;
 
 class PostRequest extends AbstractDataRequest
 {
-    public function get($item = false, $secure = true)
+    public function get($item = false)
     {
         if (!$item) {
             return parent::get();
-        }
-
-        if (!$secure) {
-            return parent::get($item);
         }
 
         return parent::get($item);

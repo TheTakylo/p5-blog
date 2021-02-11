@@ -24,10 +24,6 @@ class Session
         $twig->addFunction(new TwigFunction('isLogged', function () {
             return Session::isLogged();
         }));
-
-        $twig->addFunction(new TwigFunction('isAdmin', function () {
-            return Session::isAdmin();
-        }));
     }
 
     static function has($item): bool
@@ -44,10 +40,4 @@ class Session
     {
         return self::has('user');
     }
-
-    static function isAdmin(): bool
-    {
-        return self::isLogged() && self::get('user')->getIs_admin() === 1;
-    }
-
 }
