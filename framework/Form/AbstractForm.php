@@ -121,19 +121,6 @@ abstract class AbstractForm
         }
     }
 
-    private function _setForEntity($fieldName)
-    {
-        $methods = array('set');
-
-        foreach ($methods as $method) {
-            $method = $method . ucfirst($fieldName);
-
-            if (method_exists($this->entity, $method)) {
-                return $this->entity->$method();
-            }
-        }
-    }
-
     public function clear()
     {
         foreach($this->getFields() as $field) {

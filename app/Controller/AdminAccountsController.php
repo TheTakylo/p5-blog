@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserDeleteForm;
-use App\Form\UserForm;
+use App\Form\UserEditForm;
+use App\Form\UserNewForm;
 use App\Form\UserPasswordForm;
 use App\Repository\UserRepository;
 use Framework\Http\Response;
@@ -34,7 +35,7 @@ class AdminAccountsController extends AdminBaseController
     public function add(): Response
     {
         $user = new User();
-        $form = new UserForm($user);
+        $form = new UserNewForm($user);
 
         $form->handleRequest($this->getRequest());
 
@@ -49,6 +50,7 @@ class AdminAccountsController extends AdminBaseController
         }
 
         return $this->render('admin/accounts/form.html.twig', [
+            'new'  => true,
             'user' => $user,
             'form' => $form
         ]);
@@ -62,7 +64,7 @@ class AdminAccountsController extends AdminBaseController
             return $this->createNotFound();
         }
 
-        $form = new UserForm($user);
+        $form = new UserEditForm($user);
 
         $form->handleRequest($this->getRequest());
 

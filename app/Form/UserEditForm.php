@@ -9,29 +9,28 @@ use Framework\Form\Constraints\NotEmpty;
 use Framework\Form\Constraints\NotNull;
 use Framework\Form\Type\CsrfType;
 use Framework\Form\Type\EmailType;
-use Framework\Form\Type\PasswordType;
 use Framework\Form\Type\TextType;
 
-class UserForm extends AbstractForm
+class UserEditForm extends AbstractForm
 {
     public function __construct($entity)
     {
         parent::__construct(
             array(
-                'email'           => new EmailType(
+                'email'       => new EmailType(
                     new NotNull(),
                     new NotEmpty(),
                     new Email()
                 ),
-                'firstname'       => new TextType(
+                'firstname'   => new TextType(
                     new NotNull(),
                     new NotEmpty()
                 ),
-                'lastname'        => new TextType(
+                'lastname'    => new TextType(
                     new NotNull(),
                     new NotEmpty()
                 ),
-                '_csrf_token'     => new CsrfType(
+                '_csrf_token' => new CsrfType(
                     new Csrf()
                 )
             ), $entity

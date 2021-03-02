@@ -39,7 +39,8 @@ class Form
 
     static function form_start(AbstractForm $form)
     {
-        return "<form method='POST'>";
+        $className = str_replace("\\", '', get_class($form));
+        return "<form method='POST' id='{$className}-form'>";
     }
 
     static function form_row(AbstractForm $form, string $fieldName, $label = null, $defaultValue = '')
