@@ -23,7 +23,9 @@ class AdminPostsController extends AdminBaseController
 
     public function index(): Response
     {
-        $posts = $this->postRepository->findWhere(array(), "ORDER BY id DESC");
+        $pageNumber = $this->getRequest()->get->get('page') ?? 1;
+
+        $posts = $this->postRepository->findForHomePage($pageNumber);
 
         return $this->render('admin/posts/index.html.twig', [
             'posts' => $posts
