@@ -34,7 +34,7 @@ abstract class AbstractRepository
         return $item[0] ?? [];
     }
 
-    public function findWhere($conditions, $orderBy = "")
+    public function findWhere($conditions)
     {
         $queryConditions = "";
         $queryData = [];

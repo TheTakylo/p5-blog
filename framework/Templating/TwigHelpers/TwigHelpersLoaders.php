@@ -6,7 +6,6 @@ class TwigHelpersLoaders
 {
     static function loadFunctions()
     {
-        $functions = [];
         $helpers = ['Assets', 'Flash', 'Form', 'Paginate', 'Session', 'Urls', 'Text'];
 
         foreach ($helpers as $helper) {

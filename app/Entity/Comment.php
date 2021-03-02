@@ -68,16 +68,16 @@ class Comment extends AbstractEntity
      */
     public function getPostId()
     {
-        return $this->post_id;
+        return $this->postId;
     }
 
     /**
-     * @param mixed $post_id
+     * @param mixed $postId
      * @return Comment
      */
-    public function setPostId($post_id)
+    public function setPostId($postId)
     {
-        $this->post_id = $post_id;
+        $this->postId = $postId;
         return $this;
     }
 
