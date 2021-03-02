@@ -1,0 +1,74 @@
+{% extends 'layouts/base_layout.html.twig' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <div class="row mt-5">
+        <div class="col-md-10 offset-md-1">
+            <div class="blog-post border-bottom pb-4">
+                {% if post.updated_at %}
+                    <p class="fst-italic small text-secondary mb-4">Modifié le {{ post.updated_at|date('d/m/y à H:i') }}</p>
+                {% endif %}
+                <h2 class="blog-post-title d-inline-block">{{ post.title }}</h2>
+                <p class="d-inline-block fst-italic small text-secondary ms-2">par {{ post.other.firstname }} {{ post.other.lastname }}</p>
+                <p class="mt-5">{{ post.content|raw }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            {% include 'partials/flash.html.twig' %}
+            <div class="row">
+                <div class="col-md-7">
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <div class="media">
+                                <img src="https://gravatar.com/avatar/{{ comment.email }}" class="align-self-start mr-3">
+                                <div class="media-body ms-2">
+                                    <h5 class="mt-0">
+                                        {{ comment.name }}
+                                        <small class="ml-2">
+                                            le {{ comment.createdAt|date('d/m/y à H:i') }}
+                                        </small>
+                                    </h5>
+                                    <p>{{ comment.content }}</p>
+                                </div>
+
+                            </div>
+                            <br>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-secondary">Aucun commentaire</div>
+                    {% endif %}
+                </div>
+                <div class="col-md-5">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{ form_row(form, 'email', 'Adresse email') }}
+                            {{ form_errors(form, 'email') }}
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            {{ form_row(form, 'name', 'Nom') }}
+                            {{ form_errors(form, 'name') }}
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            {{ form_row(form, 'content', 'Commentaire') }}
+                            {{ form_errors(form, 'content') }}
+                        </div>
+                    </div>
+                    {{ form_row(form, '_csrf_token', '', csrf_token()) }}
+                    <div class="form-row">
+                        <button type="submit" class="btn btn-secondary mt-3">Valider</button>
+                        <p class="fst-italic small text-secondary mt-2">Votre commentaire fera l'objet d'un examen avant sa publication</p>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

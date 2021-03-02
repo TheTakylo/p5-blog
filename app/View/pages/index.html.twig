@@ -1,0 +1,61 @@
+{% extends 'layouts/base_layout.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+    <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 font-italic">Sébastien Thuret</h1>
+            <p class="lead my-3">Le développeur qu’il vous faut !</p>
+            <a href="{{ asset('pdf/cv.pdf') }}" class="mt-1 btn btn-light">Voir mon CV <span data-feather="file-text"></span></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <h3 class="pb-4 mb-4 font-italic border-bottom">
+                Derniers articles
+            </h3>
+
+            {% for post in posts %}
+                <div class="blog-post">
+                    <h3 class="blog-post-title d-inline-block">{{ post.title }}</h3>
+                    <p class="d-inline-block fst-italic small text-secondary ms-2">par {{ post.other.firstname }} {{ post.other.lastname }}</p>
+                    <p>{{ post.short_content }}</p>
+                    <a href="{{ route('posts@show', {id: post.id, slug: post.slug}) }}">Lire la suite</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-4">
+            {% include 'partials/flash.html.twig' %}
+            <div class="p-4 mb-3 bg-light rounded">
+                <h4 class="font-italic">Contactez-moi</h4>
+                {{ form_start(form) }}
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        {{ form_row(form, 'firstname', 'Prénom') }}
+                        {{ form_errors(form, 'firstname') }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form, 'lastname', 'Nom') }}
+                        {{ form_errors(form, 'lastname') }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        {{ form_row(form, 'email', 'Adresse email') }}
+                        {{ form_errors(form, 'email') }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        {{ form_row(form, 'message', 'Message') }}
+                        {{ form_errors(form, 'message') }}
+                    </div>
+                </div>
+                {{ form_row(form, '_csrf_token', '', csrf_token()) }}
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

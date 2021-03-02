@@ -1,0 +1,14 @@
+<?php
+
+return [
+    'environement' => 'prod', // 'dev' | 'prod'
+
+    'smtp' => [
+        'host' => 'smtp.gmail.com',
+        'port' => 465,
+        'username' => '',
+        'password' => '',
+
+        'contact_email' => '',
+    ]
+];

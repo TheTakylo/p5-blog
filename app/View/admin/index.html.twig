@@ -1,0 +1,39 @@
+{% extends 'layouts/base_admin.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Accueil</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-dark bg-light mb-3">
+                <div class="card-header">D'un coup d'oeil</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a class="text-decoration-none" href="{{ route('adminPosts@index') }}">
+                                <span class="text-secondary" data-feather="file-text"></span>
+                                {{ postsCounts }} articles
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="text-decoration-none" href="{{ route('adminComments@index') }}">
+                                <span class="text-secondary" data-feather="message-circle"></span>
+                                {{ commentsCounts }} commentaires
+                            </a>
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <a class="text-decoration-none" href="{{ route('adminComments@index') }}">
+                                <span class="text-secondary" data-feather="message-circle"></span>
+                                {{ commentsToValidateCounts }} commentaires à valider
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

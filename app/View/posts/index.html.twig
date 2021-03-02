@@ -1,0 +1,20 @@
+{% extends 'layouts/base_layout.html.twig' %}
+
+{% block title %}Les articles{% endblock %}
+
+{% block content %}
+    {% if posts %}
+        <h1 class="my-5">Les articles</h1>
+        {% for post in posts %}
+            <div class="blog-post">
+                <h4 class="blog-post-title d-inline-block">{{ post.title }}</h4>
+                <p class="d-inline-block fst-italic small text-secondary ms-2">par {{ post.other.firstname }} {{ post.other.lastname }}</p>
+                <p>{{ post.short_content }}</p>
+                <a href="{{ route('posts@show', {id: post.id, slug: post.slug}) }}">Lire la suite</a>
+            </div>
+        {% endfor %}
+        {{ paginate_show('\\App\\Repository\\PostRepository') }}
+    {% else %}
+        <h3 class="text-center my-5">Aucun articles</h3>
+    {% endif %}
+{% endblock %}

@@ -24,7 +24,7 @@ class Request
 
     public function getPath()
     {
-        return $this->server->get('PATH_INFO') ?? '/';
+        return parse_url($this->server->get('REQUEST_URI'), PHP_URL_PATH) ?? '/';
     }
 
     public function getMethod()

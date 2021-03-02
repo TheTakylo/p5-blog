@@ -1,0 +1,86 @@
+{% extends 'layouts/base_admin.html.twig' %}
+
+{% block title %}Commentaires{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Commentaires</h1>
+    </div>
+    <div class="mb-4">
+        <a href="?show=need-validate" class="text-decoration-none {% if commentsType == 0 %}text-primary{% else %}text-secondary{% endif %}">A valider</a> <span
+                class="text-secondary">({{ commentsNeedValidate }})</span>
+        <a href="#" class="text-decoration-underline text-secondary mx-1">|</a>
+        <a href="?show=validated" class="text-decoration-none {% if commentsType == 1 %}text-primary{% else %}text-secondary{% endif %}">Validé</a> <span
+                class="text-secondary">({{ commentsValidated }})</span>
+    </div>
+    {% if comments %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Statut</th>
+                <th scope="col">Article associé</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Email</th>
+                <th scope="col">Contenu</th>
+                <th scope="col">Ajouté le</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for comment in comments %}
+                <tr>
+                    <th>
+                        {% if comment.validated is same as(1) %}
+                            <span class="badge bg-primary">Validé</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">A valider</span>
+                        {% endif %}
+                    </th>
+                    <th>
+                        <a target="_blank" href="{{ route('posts@show', {id: comment.post_id, slug: comment.other.slug}) }}">
+                            {{ comment.other.title }}
+                            <span data-feather="external-link"></span>
+                        </a>
+                    </th>
+                    <td>
+                        {{ comment.name }}
+                    </td>
+                    <td>
+                        {{ comment.email }}
+                    </td>
+                    <td>
+                        {{ comment.content }}
+                    </td>
+                    <td>
+                        <span data-feather="calendar"></span>
+                        Le {{ comment.createdAt|date('d/m/Y à H:i:s') }}
+                    </td>
+                    <td>
+                        {% if comment.validated is same as(0) %}
+                            <form action="{{ route('adminComments@validate', {id: comment.id}) }}" method="post" class="d-inline-block">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    <span data-feather="check"></span>
+                                    Valider
+                                </button>
+                            </form>
+                        {% endif %}
+                        <form action="{{ route('adminComments@delete', {id: comment.id}) }}" method="post" class="d-inline-block">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+                            <button onclick="confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')" type="submit" class="btn btn-sm btn-danger">
+                                <span data-feather="x"></span>
+                                Supprimer
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info">
+            Aucun commentaires.
+        </div>
+    {% endif %}
+{% endblock %}

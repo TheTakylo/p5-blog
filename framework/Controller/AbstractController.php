@@ -2,15 +2,16 @@
 
 namespace Framework\Controller;
 
+use Framework\Configuration\Store;
+use Framework\Database\Repository\AbstractRepository;
+use Framework\Helpers\UrlsHelper;
+use Framework\Http\RedirectResponse;
 use Framework\Http\Request;
 use Framework\Http\Response;
-use Framework\Templating\View;
-use Framework\Helpers\UrlsHelper;
-use Framework\Configuration\Store;
+use Framework\Router\Exception\RouteNotFoundException;
 use Framework\Session\FlashManager;
-use Framework\Http\RedirectResponse;
 use Framework\Session\SessionManager;
-use Framework\Database\Repository\AbstractRepository;
+use Framework\Templating\View;
 
 abstract class AbstractController
 {
@@ -30,11 +31,9 @@ abstract class AbstractController
 
     public function render($view, $params = [], int $statusCode = 200): Response
     {
-        $view = new View($view, $this->layout, $params);
-
         $response = new Response();
         $response->setStatusCode($statusCode)
-                 ->setContent($view->generate());
+            ->setContent(Store::getInstance()->get('Twig')->render($view, $params));
 
         return $response;
     }
@@ -84,6 +83,11 @@ abstract class AbstractController
     public function getRepository($repository): AbstractRepository
     {
         return new $repository();
+    }
+
+    public function createNotFound(): Response
+    {
+        throw new RouteNotFoundException();
     }
 
 }

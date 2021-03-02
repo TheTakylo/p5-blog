@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>{% block title %}{% endblock %} | Sébastien Thuret - Blog</title>
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ assets_css('bootstrap.min.css') }}">
+</head>
+<body>
+<div class="container">
+    <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+            <div class="col-4">
+            </div>
+            <div class="col-4 text-center">
+                <a class="blog-header-logo text-dark text-decoration-none" href="{{ route('pages@index') }}">
+                    <img src="{{ assets_img('logo.png') }}" alt="" height="65" width="65">
+                    Blog
+                </a>
+            </div>
+            <div class="col-4">
+            </div>
+        </div>
+    </header>
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            <div class="d-flex">
+                <a class="p-2 link-secondary" href="{{ route('pages@index') }}">Accueil</a>
+                <a class="p-2 link-secondary" href="{{ route('posts@index') }}">Articles</a>
+            </div>
+            <div class="d-flex">
+                {% if isLogged() %}
+                    <a class="p-2 link-secondary" href="{{ route('admin@index') }}">Administration</a>
+                    <a class="p-2 link-secondary" href="{{ route('users@logout') }}">Déconnexion</a>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
+</div>
+<main class="container">
+    {% block content %}{% endblock %}
+</main>
+<footer class="blog-footer mt-5">
+    <div>
+        <a target="_blank" href="https://github.com/TheTakylo/p5-blog" class="text-secondary"><span data-feather="github"></span></a>
+        <a target="_blank" href="https://www.linkedin.com/in/sebastien-thuret/" class="text-secondary ms-1"><span data-feather="linkedin"></span></a>
+    </div>
+    <p class="mt-2">Créez votre premier blog en PHP - P5 OpenClassrooms | Sébastien Thuret</p>
+    {% if not isLogged() %}
+        <a class="p-2 link-secondary" href="{{ route('users@login') }}">Connexion</a>
+    {% endif %}
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
+        crossorigin="anonymous"></script>
+<script src="{{ assets_js('feather.js') }}"></script>
+</body>
+</html>

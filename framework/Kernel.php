@@ -19,10 +19,16 @@ class Kernel
     /** @var ConfigurationParser */
     private $config;
 
+    /** @var \Twig\Environment $twig */
+    private $twig;
+
     public function __construct($app, ConfigurationParser $config)
     {
         $this->env = $app['environement'];
         $this->config = $config;
+
+        $loader = new \Twig\Loader\FilesystemLoader(TEMPLATE);
+        $this->twig = new \Twig\Environment($loader);
     }
 
     public function getResponse()
@@ -30,25 +36,47 @@ class Kernel
         $this->initializeEnvironement();
 
         $store = Store::getInstance();
+        $store->set('Twig', $this->twig);
+
+        $this->loadTwigFunctions();
+
         $store->set('Config', $this->config);
-        $store->set('Database', (new Database($this->config->getDatabase()))->getConnection());
         $store->set('Request', Request::all());
         $store->set('Router', new Router($this->config->getRoutes(), $store->get('Request')));
 
         define('SITE_URL', $store->getRouter()->getRoot());
 
         try {
+            $store->set('Database', (new Database($this->config->getDatabase()))->getConnection());
+
             if ($route = $store->getRouter()->match()) {
 
                 $controller = 'App\\Controller\\' . ucfirst($route->getController()) . 'Controller';
                 $controller = new $controller;
 
                 /** @var Response $response */
-                $response = call_user_func_array([$controller, $route->getAction()], $route->getParams());
+
+                $action = $route->getAction();
+                $response = $controller->$action(...$route->getParams());
 
                 return $response->send();
             }
         } catch (RouteNotFoundException $e) {
+            if ($this->env === 'prod') {
+                if (file_exists(CONTROLLERS_DIR . 'ErrorsController.php')) {
+                    $controller = new \App\Controller\ErrorsController();
+                    return $controller->error404()->send();
+                }
+            }
+
+            throw $e;
+        } catch (\Exception $e) {
+            if ($this->env === 'prod') {
+                $controller = new \App\Controller\ErrorsController();
+                return $controller->error()->send();
+            }
+
+            throw $e;
         }
     }
 
@@ -63,6 +91,11 @@ class Kernel
             ini_set("display_errors", "on");
             error_reporting(-1);
         }
+    }
+
+    private function loadTwigFunctions()
+    {
+        \Framework\Templating\TwigHelpers\TwigHelpersLoaders::loadFunctions();
     }
 
 }
