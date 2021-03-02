@@ -17,11 +17,6 @@ class CommentRepository extends AbstractRepository
         return Comment::class;
     }
 
-    private function getOffset($pageNumber)
-    {
-        return ($pageNumber - 1) * self::getMaxElements();
-    }
-
     public function findAllWithPosts($validated = 1)
     {
 
