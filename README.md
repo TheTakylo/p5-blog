@@ -21,26 +21,26 @@ importer le fichier dump.sql
 composer install
 ```
 
-
 ## Configuration du projet
 
 Fichiers a renommer:
+
 - **application.php.dist** -> **application.php**
 - **database.php.dist** -> **database.php**
-
 
 Remplir le fichier **database.php** avec les informations de la base de données
 
 Remplir la partie **smtp** du fichier **application.php** afin de faire fonctionner l'envoie des emails.
 
+L'adresse email de l'administrateur doit être indiquée dans le fichier **application.php** -> "**contact_email**"
 
 ## Lancer le serveur
+
 ```
 php -S localhost:8000 -t public
 ```
 
 Puis se rendre à l'adresse http://localhost:8000
-
 
 # Accès à l'administration
 
